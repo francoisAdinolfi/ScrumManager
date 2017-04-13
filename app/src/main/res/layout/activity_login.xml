@@ -1,18 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.francois.scrummanager.LoginActivity">
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    tools:context="com.example.francois.scrummanager.LoginActivity"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="81dp">
 
-    <TextView
+    <EditText
+        android:id="@+id/email"
+        style="@style/Widget.AppCompat.EditText"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:ems="10"
+        android:hint="Email"
+        android:inputType="textEmailAddress"
+        tools:layout_editor_absoluteX="75dp"
+        tools:layout_editor_absoluteY="25dp" />
+
+    <EditText
+        android:id="@+id/password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_gravity="center_horizontal"
+        android:ems="10"
+        android:hint="Mot de Passe"
+        android:inputType="textPassword"
+        tools:layout_editor_absoluteX="85dp"
+        tools:layout_editor_absoluteY="100dp" />
 
-</android.support.constraint.ConstraintLayout>
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RadioButton
+            android:id="@+id/scrumMaster"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Scrum Master"
+            tools:layout_editor_absoluteX="44dp"
+            tools:layout_editor_absoluteY="155dp" />
+
+        <RadioButton
+            android:id="@+id/Developper"
+            android:layout_width="118dp"
+            android:layout_height="32dp"
+            android:layout_weight="1"
+            android:text="Developpeur"
+            tools:layout_editor_absoluteX="222dp"
+            tools:layout_editor_absoluteY="155dp" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/subscribe"
+            android:layout_width="120dp"
+            android:layout_height="48dp"
+            android:layout_weight="0.88"
+            android:text="Inscription"
+            tools:layout_editor_absoluteX="222dp"
+            tools:layout_editor_absoluteY="219dp" />
+
+        <Button
+            android:id="@+id/login"
+            android:layout_width="134dp"
+            android:layout_height="48dp"
+            android:text="Connexion"
+            tools:layout_editor_absoluteX="44dp"
+            tools:layout_editor_absoluteY="219dp" />
+
+    </LinearLayout>
+
+</LinearLayout>
