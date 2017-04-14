@@ -3,21 +3,21 @@
 
     <item
         is-multidex="true"
-        jar="C:\ScrumManager\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jar="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="4d4466a28286b86fa447979a28be72c16392c2a8">
+        <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_5fabc80224d7b9801ffffb7058df905f6fd19619\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
         sha1="c82741bc129dd5f99f11a4ab8666ae24262053b6">
-        <dex dex="C:\ScrumManager\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_55ebe1e84b24bc063244f5be4f309611ca048523\classes.dex" />
-    </item>
-    <item
-        is-multidex="true"
-        jar="C:\ScrumManager\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
-        jumboMode="true"
-        optimize="true"
-        revision="25.0.2"
-        sha1="da0455f369e96603a7550401179b628bc1712ecb">
-        <dex dex="C:\ScrumManager\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_608252d9493d9219e97dd865d845b68fb6ddf11d\classes.dex" />
+        <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_27277ef24f9fa033e8bb6a600f3471dd0a2daa14\classes.dex" />
     </item>
 
 </items>
