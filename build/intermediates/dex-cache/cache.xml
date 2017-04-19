@@ -3,12 +3,75 @@
 
     <item
         is-multidex="true"
+        jar="C:\Users\Nicolas\.android\build-cache\5fd8c757851085f2011fa39ed6167040d5d994d1\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="9ab787a20aae245b5b3651ae0b9c38459eb37715">
+        <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_25a55cbd8c7831bb26bb914e411275d8385cb87c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Nicolas\.android\build-cache\3509e09185f36593321c85655c0deee865c130d5\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d6a04527c17597019dad82777c5094a3d60d1c33">
+        <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_40c8f57733cc25406805c56cda1b8258827f8a58\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Nicolas\.android\build-cache\dd135c9d25e50913a7d8501e3ca630986e7156ca\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="425c7b17887e5c3f8cbdf67ba171bc246f29b42c">
+        <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_9ee0c844ca5f3573a306d20942e9e7021d40d94d\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Nicolas\.android\build-cache\71ea97516c18118a8f688b7bc298df72595d27c3\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_97d72214667a840290543118e9d673aa3b2b3852\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Nicolas\.android\build-cache\2bcce8e63cfbf7f838ef1a6a52a055e5698d2229\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="518768f3200963fbfec652f498da2c9d39245234">
+        <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_3c10992c5ea49dd825fe093f1038f1c0092e1dd2\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
         jar="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
         jumboMode="true"
         optimize="true"
         revision="25.0.2"
-        sha1="3694426d985d5c110b7deb2d42d014fdfcf65eeb">
+        sha1="d94f41696293928b0416c54736c8aab47bfb1a3f">
         <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_5fabc80224d7b9801ffffb7058df905f6fd19619\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Nicolas\.android\build-cache\695a3138975012f8cd46e4c21346571ccd14c2c8\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="4b746ef0fd46acb5aaf3d9ab9a4cec22c28d3211">
+        <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_aa610685c202998d8b6eb6695f5c2960a2546cbc\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Nicolas\.android\build-cache\539e1d6f68e28a8da02a05fd4591b2296d565953\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="a3e61044038fb54cddf6b8dc79f41d2b57f42caf">
+        <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_9969d953c3f9d6e4bf111265df4eeb7ec6489000\classes.dex" />
     </item>
     <item
         is-multidex="true"
@@ -18,6 +81,51 @@
         revision="25.0.2"
         sha1="510aa6efc159983dfbffa676a0dae37568c0a46f">
         <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_27277ef24f9fa033e8bb6a600f3471dd0a2daa14\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Nicolas\.android\build-cache\3869a7aca02f7d4a4f34adf8513494371fef33de\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="93c10d68ab5ea070f15782ae6d3a28d1f1d8f45e">
+        <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_f740f7f7f46e95a196ee7e4c3a8b344d2b33cd63\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Nicolas\.android\build-cache\20b7c464967133ce6845208563e0864b330a1c26\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="fbb206f7a119f66ce171d95aae1225a5b209a8b7">
+        <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_498e6e0f464e9544fa44e07c3536064631819cba\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Nicolas\.android\build-cache\59eb9824ae0e357c03e61a9d274ec270caef92f6\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="70f23cb87278f89aa51e6f57e8f0fd5266572d95">
+        <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_21878515f78043f98e180b66b74759c3ebd2d894\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Nicolas\.android\build-cache\0bc35afb632f43848b497648d0021f96e4e96d39\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="93c1199fcb0a34b980e6fff8350daff62e696ec2">
+        <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_849ea62e6dd87755f5c4b5f42d03d4c707d98a2d\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Nicolas\.android\build-cache\b2f05248fb9fd6ed3a63baf1440c5c65a2ebd4e9\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="25.0.2"
+        sha1="5cc5ef8347a6bafa14556cbd35230aa9b3431bb0">
+        <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\dex\debug\folders\1000\10\classes_67376156e713d64cf4f9e16cda53ffcdc0835bb5\classes.dex" />
     </item>
 
 </items>

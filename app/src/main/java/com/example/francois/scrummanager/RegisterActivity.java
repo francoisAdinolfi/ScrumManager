@@ -17,11 +17,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
-    private static final String REGISTER_URL = "http://scrummaster.pe.hu/user.php";
+    private static final String USER_URL = "http://scrummaster.pe.hu/user.php";
     private Button btnRegister;
     private TextView linkLogin;
     private EditText inputName;
@@ -51,9 +54,9 @@ public class RegisterActivity extends AppCompatActivity {
                 if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
                     Toast.makeText(getApplicationContext(), "Inputs must be filled", Toast.LENGTH_LONG).show();
                 } else if (role == -1) {
-                    Toast.makeText(getApplicationContext(), "A role must be checked", Toast.LENGTH_LONG).show();;
+                    Toast.makeText(getApplicationContext(), "A role must be checked", Toast.LENGTH_LONG).show();
                 } else {
-                    register(name, email, password, role, REGISTER_URL);
+                    register(name, email, password, role);
                 }
             }
         });
@@ -68,12 +71,25 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    public void register(final String name, final String email, final String password, final int role, String url) {
-        final StringRequest stringRequest = new StringRequest(Request.Method.POST, REGISTER_URL,
+    public void register(final String name, final String email, final String password, final int role) {
+        final StringRequest stringRequest = new StringRequest(Request.Method.POST, USER_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(RegisterActivity.this, response, Toast.LENGTH_LONG).show();
+                        try {
+                            JSONObject jObj = new JSONObject(response);
+                            if(jObj.getString("msg").equals("Successfully Registered")) {
+                                Toast.makeText(RegisterActivity.this, jObj.getString("msg"), Toast.LENGTH_LONG).show();
+                                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                            else {
+                                Toast.makeText(RegisterActivity.this, jObj.getString("msg"), Toast.LENGTH_LONG).show();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 },
                 new Response.ErrorListener() {
@@ -85,14 +101,15 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
+                params.put("tag", "register");
                 params.put("name", name);
                 params.put("email", email);
                 params.put("password", password);
                 if(role  == R.id.radioScrumMaster){
-                    params.put("role", "1");
+                    params.put("role", "scrummaster");
                 }
                 else if(role  == R.id.radioDeveloper){
-                    params.put("role", "2");
+                    params.put("role", "developer");
                 }
                 return params;
             }
