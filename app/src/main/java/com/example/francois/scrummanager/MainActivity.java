@@ -1,17 +1,38 @@
 package com.example.francois.scrummanager;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-    private Button btnLogout;
+    private static final String PROJECT_URL = "http://scrummaster.pe.hu/project.php";
     private SessionManager session;
+    private ListView listProjects;
+    private ArrayList<String> projects = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,25 +40,69 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         session = new SessionManager(getApplicationContext());
-
         session.checkLogin();
+        final HashMap<String, String> user = session.getUserDetails();
 
-        TextView name = (TextView) findViewById(R.id.name);
-        TextView email = (TextView) findViewById(R.id.email);
-        TextView role = (TextView) findViewById(R.id.role);
-        btnLogout = (Button) findViewById(R.id.btnLogout);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(user.get(SessionManager.KEY_NAME));
+        setSupportActionBar(toolbar);
 
-        HashMap<String, String> user = session.getUserDetails();
+        listProjects = (ListView) findViewById(R.id.listProjects);
 
-        name.setText("Name: " + user.get(SessionManager.KEY_NAME));
-        email.setText("Email: " + user.get(SessionManager.KEY_EMAIL));
-        role.setText("Role: " + user.get(SessionManager.KEY_ROLE));
+        final StringRequest stringRequest = new StringRequest(Request.Method.POST, PROJECT_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            JSONArray j = new JSONArray(response);
 
-        btnLogout.setOnClickListener(new View.OnClickListener() {
+                            for (int i = 0; i < j.length(); i++) {
+                                JSONObject JOStuff = j.getJSONObject(i);
+                                projects.add(JOStuff.getString("name"));
+                            }
+
+                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, projects);
+                            listProjects.setAdapter(adapter);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(MainActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                    }
+                }) {
             @Override
-            public void onClick(View v) {
-                session.logoutUser();
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                if(user.get(SessionManager.KEY_ROLE).equals("scrummaster"))
+                    params.put("tag", "scrummasterprojects");
+                else
+                    params.put("tag", "developerprojects");
+                params.put("id_user", user.get(SessionManager.KEY_ID));
+                return params;
             }
-        });
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_logout:
+                session.logoutUser();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }

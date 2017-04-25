@@ -75,7 +75,7 @@ public class LoginActivity extends Activity {
                             JSONObject jObj = new JSONObject(response);
                             if(jObj.getString("msg").equals("Successfully Login")) {
                                 Toast.makeText(LoginActivity.this, jObj.getString("msg"), Toast.LENGTH_LONG).show();
-                                session.createLoginSession(jObj.getString("name"), jObj.getString("email"), jObj.getString("role"));
+                                session.createLoginSession(jObj.getString("id_user"), jObj.getString("name"), jObj.getString("email"), jObj.getString("role"));
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 startActivity(intent);
                                 finish();
