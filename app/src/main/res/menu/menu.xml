@@ -4,4 +4,10 @@
         android:id="@+id/action_logout"
         android:title="Logout"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_addproject"
+        android:title="addproject"
+        android:icon="@drawable/ic_add"
+        app:showAsAction="always" />
 </menu>

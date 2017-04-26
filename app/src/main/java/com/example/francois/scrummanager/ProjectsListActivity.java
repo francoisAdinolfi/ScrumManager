@@ -1,16 +1,15 @@
 package com.example.francois.scrummanager;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -28,7 +27,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class ProjectsListActivity extends AppCompatActivity {
     private static final String PROJECT_URL = "http://scrummaster.pe.hu/project.php";
     private SessionManager session;
     private ListView listProjects;
@@ -37,14 +36,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_projectslist);
+
+        System.out.print("LOL : ---------------------------------------");
 
         session = new SessionManager(getApplicationContext());
         session.checkLogin();
         final HashMap<String, String> user = session.getUserDetails();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(user.get(SessionManager.KEY_NAME));
+        toolbar.setTitle("My Projects :");
         setSupportActionBar(toolbar);
 
         listProjects = (ListView) findViewById(R.id.listProjects);
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                                 projects.add(JOStuff.getString("name"));
                             }
 
-                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, projects);
+                            ArrayAdapter<String> adapter = new ArrayAdapter<String>(ProjectsListActivity.this, android.R.layout.simple_list_item_1, projects);
                             listProjects.setAdapter(adapter);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(MainActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(ProjectsListActivity.this, error.toString(), Toast.LENGTH_LONG).show();
                     }
                 }) {
             @Override
@@ -92,6 +93,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
+        if(!session.getUserDetails().get(SessionManager.KEY_ROLE).equals("scrummaster")){
+            menu.findItem(R.id.action_addproject).setVisible(false);
+        }
         return true;
     }
 
@@ -100,6 +104,9 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.action_logout:
                 session.logoutUser();
+                return true;
+            case R.id.action_addproject:
+                startActivity(new Intent(ProjectsListActivity.this, AddProjectActivity.class));
                 return true;
         }
 

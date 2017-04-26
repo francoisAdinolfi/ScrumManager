@@ -76,7 +76,7 @@ public class LoginActivity extends Activity {
                             if(jObj.getString("msg").equals("Successfully Login")) {
                                 Toast.makeText(LoginActivity.this, jObj.getString("msg"), Toast.LENGTH_LONG).show();
                                 session.createLoginSession(jObj.getString("id_user"), jObj.getString("name"), jObj.getString("email"), jObj.getString("role"));
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                Intent intent = new Intent(LoginActivity.this, ProjectsListActivity.class);
                                 startActivity(intent);
                                 finish();
                             }
