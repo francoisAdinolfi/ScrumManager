@@ -38,8 +38,6 @@ public class ProjectsListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_projectslist);
 
-        System.out.print("LOL : ---------------------------------------");
-
         session = new SessionManager(getApplicationContext());
         session.checkLogin();
         final HashMap<String, String> user = session.getUserDetails();

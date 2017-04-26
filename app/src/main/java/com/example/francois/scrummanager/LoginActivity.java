@@ -36,6 +36,11 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
 
         session = new SessionManager(getApplicationContext());
+        if(session.isLoggedIn()){
+            Intent intent = new Intent(LoginActivity.this, ProjectsListActivity.class);
+            startActivity(intent);
+            finish();
+        }
 
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
