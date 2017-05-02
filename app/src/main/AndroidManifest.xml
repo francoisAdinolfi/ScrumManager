@@ -11,21 +11,23 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginActivity"
-            android:windowSoftInputMode="stateHidden" >
+        <activity
+            android:name=".LoginActivity"
+            android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ProjectsListActivity" />
+        <activity android:name=".ProjectsListActivity" />
         <activity
             android:name=".RegisterActivity"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".AddProjectActivity"
             android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".TaskProjetsListActivity"></activity>
     </application>
 
 </manifest>
