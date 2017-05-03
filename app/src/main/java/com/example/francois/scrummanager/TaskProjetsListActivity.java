@@ -88,9 +88,9 @@ public class TaskProjetsListActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.menutask, menu);
         if(!session.getUserDetails().get(SessionManager.KEY_ROLE).equals("scrummaster")){
-            menu.findItem(R.id.action_addproject).setVisible(false);
+            menu.findItem(R.id.action_addtask).setVisible(false);
         }
         return true;
     }
@@ -101,8 +101,10 @@ public class TaskProjetsListActivity extends AppCompatActivity {
             case R.id.action_logout:
                 session.logoutUser();
                 return true;
-            case R.id.action_addproject:
-                startActivity(new Intent(TaskProjetsListActivity.this, AddProjectActivity.class));
+            case R.id.action_addtask:
+                Intent intent = new Intent(TaskProjetsListActivity.this, AddTaskActivity.class);
+                intent.putExtra("idProjet",idProjet);
+                startActivity(intent);
                 return true;
         }
 
