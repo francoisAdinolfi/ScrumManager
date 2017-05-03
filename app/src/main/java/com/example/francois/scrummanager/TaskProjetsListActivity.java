@@ -6,11 +6,8 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -39,11 +36,10 @@ public class TaskProjetsListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_projectslist);
+        setContentView(R.layout.activity_task_projets_list);
 
         session = new SessionManager(getApplicationContext());
         session.checkLogin();
-        final HashMap<String, String> user = session.getUserDetails();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("TaskList :");
@@ -65,7 +61,7 @@ public class TaskProjetsListActivity extends AppCompatActivity {
                                 tasks.add(JOStuff.getString("name"));
                             }
 
-                            ArrayAdapter<String> adapter = new ArrayAdapter<>(TaskProjetsListActivity.this, android.R.layout.simple_list_item_2, tasks);
+                            ArrayAdapter<String> adapter = new ArrayAdapter<>(TaskProjetsListActivity.this, android.R.layout.simple_list_item_1, tasks);
                             taskList.setAdapter(adapter);
                         } catch (JSONException e) {
                             e.printStackTrace();
