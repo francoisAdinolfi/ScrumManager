@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -31,7 +34,8 @@ public class TaskProjetsListActivity extends AppCompatActivity {
     private SessionManager session;
     private ListView taskList;
     private int idProjet;
-    private ArrayList<String> tasks = new ArrayList<>();
+    private ArrayList<String> tasksName = new ArrayList<>();
+    private ArrayList<ArrayList<String>> tasks = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +48,8 @@ public class TaskProjetsListActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("TaskList :");
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         idProjet = getIntent().getIntExtra("idProjet",0);
 
@@ -58,10 +64,15 @@ public class TaskProjetsListActivity extends AppCompatActivity {
 
                             for (int i = 0; i < j.length(); i++) {
                                 JSONObject JOStuff = j.getJSONObject(i);
-                                tasks.add(JOStuff.getString("name"));
+                                tasksName.add(JOStuff.getString("name"));
+                                ArrayList<String> taskTmp = new ArrayList<>();
+                                taskTmp.add(JOStuff.getString("id_task"));
+                                taskTmp.add(JOStuff.getString("name"));
+                                taskTmp.add(JOStuff.getString("description"));
+                                tasks.add(taskTmp);
                             }
 
-                            ArrayAdapter<String> adapter = new ArrayAdapter<>(TaskProjetsListActivity.this, android.R.layout.simple_list_item_1, tasks);
+                            ArrayAdapter<String> adapter = new ArrayAdapter<>(TaskProjetsListActivity.this, android.R.layout.simple_list_item_1, tasksName);
                             taskList.setAdapter(adapter);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -84,6 +95,22 @@ public class TaskProjetsListActivity extends AppCompatActivity {
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
+
+        taskList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ArrayList<String> task = tasks.get(tasksName.indexOf(((TextView) view).getText()));
+                Intent intent = new Intent(TaskProjetsListActivity.this, TaskActivity.class);
+                intent.putExtra("task", task);
+                startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        super.onBackPressed();
+        return true;
     }
 
     @Override

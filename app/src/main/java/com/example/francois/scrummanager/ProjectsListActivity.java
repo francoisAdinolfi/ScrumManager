@@ -99,7 +99,6 @@ public class ProjectsListActivity extends AppCompatActivity {
                 Intent intent = new Intent(ProjectsListActivity.this, TaskProjetsListActivity.class);
                 intent.putExtra("idProjet",idprojet);
                 startActivity(intent);
-                finish();
             }
         });
     }
