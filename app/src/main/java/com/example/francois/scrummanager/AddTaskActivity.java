@@ -25,22 +25,23 @@ public class AddTaskActivity extends AppCompatActivity {
     private EditText inputName;
     private EditText inputDescription;
     private SessionManager session;
+    private int idProjet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_project);
+        setContentView(R.layout.activity_add_task);
 
         session = new SessionManager(getApplicationContext());
         session.checkLogin();
-        final HashMap<String, String> user = session.getUserDetails();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Add A Project :");
+        toolbar.setTitle("Add A Task :");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        idProjet = getIntent().getIntExtra("idProjet",0);
         btnAdd = (Button) findViewById(R.id.btnAdd);
         inputName = (EditText) findViewById(R.id.name);
         inputDescription = (EditText) findViewById(R.id.description);
@@ -72,7 +73,8 @@ public class AddTaskActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         Toast.makeText(AddTaskActivity.this, response, Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(AddTaskActivity.this, ProjectsListActivity.class);
+                        Intent intent = new Intent(AddTaskActivity.this, TaskProjetsListActivity.class);
+                        intent.putExtra("idProjet",idProjet);
                         startActivity(intent);
                         finish();
                     }
@@ -85,9 +87,9 @@ public class AddTaskActivity extends AppCompatActivity {
                 }) {
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("tag", "addproject");
-                params.put("id_user", session.getUserDetails().get(SessionManager.KEY_ID));
+                Map<String, String> params = new HashMap<>();
+                params.put("tag", "addtask");
+                params.put("id_projet", Integer.toString(idProjet));
                 params.put("name", name);
                 params.put("description", description);
                 return params;
