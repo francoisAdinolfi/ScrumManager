@@ -63,7 +63,10 @@ public class AddTaskActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        onBackPressed();
+        Intent intent = new Intent(AddTaskActivity.this, TaskProjetsListActivity.class);
+        intent.putExtra("idProjet",idProjet);
+        startActivity(intent);
+        finish();
         return true;
     }
 
