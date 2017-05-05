@@ -43,6 +43,14 @@
             android:text="Vote :"
             android:textStyle="bold" />
 
+        <TextView
+            android:id="@+id/isVotedText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="You have already voted"
+            android:textAlignment="center"
+            android:visibility="gone" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -57,12 +65,11 @@
                 android:layout_weight="1" />
 
             <TextView
-                android:id="@+id/voteText"
-                android:layout_width="-20dp"
+                android:id="@+id/estimationText"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="10dp"
-                android:layout_weight="0.28"
-                android:paddingLeft="10dp" />
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp" />
         </LinearLayout>
 
         <Button
