@@ -29,7 +29,9 @@
             android:windowSoftInputMode="stateHidden" />
         <activity android:name=".TaskProjetsListActivity" />
         <activity android:name=".AddTaskActivity" />
-        <activity android:name=".TaskActivity"></activity>
+        <activity android:name=".TaskActivity" />
+        <activity android:name=".SubDevActivity" />
+        <activity android:name=".AddDevActivity"></activity>
     </application>
 
 </manifest>

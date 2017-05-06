@@ -1,13 +1,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/action_adddev"
+        android:icon="@drawable/adddev"
+        android:title="adddev"
+        app:showAsAction="always" />
+
+    <item
         android:id="@+id/action_logout"
-        android:title="Logout"
-        app:showAsAction="never" />
+        android:title="Logout" />
+    <item
+        android:id="@+id/action_subdev"
+        android:icon="@drawable/subdev"
+        android:title="subdev"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/action_addtask"
-        android:title="addtask"
         android:icon="@drawable/ic_add"
+        android:title="addtask"
         app:showAsAction="always" />
 </menu>

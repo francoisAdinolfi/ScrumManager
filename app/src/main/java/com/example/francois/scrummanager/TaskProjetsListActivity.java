@@ -134,6 +134,18 @@ public class TaskProjetsListActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
                 return true;
+            case R.id.action_subdev:
+                intent = new Intent(TaskProjetsListActivity.this, SubDevActivity.class);
+                intent.putExtra("idProjet",idProjet);
+                startActivity(intent);
+                finish();
+                return true;
+            case R.id.action_adddev:
+                intent = new Intent(TaskProjetsListActivity.this, AddDevActivity.class);
+                intent.putExtra("idProjet",idProjet);
+                startActivity(intent);
+                finish();
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
