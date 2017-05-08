@@ -4,8 +4,11 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -41,7 +44,7 @@ public class SubDevActivity extends AppCompatActivity {
         session.checkLogin();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("TaskList :");
+        toolbar.setTitle("Sub Developer :");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -87,43 +90,16 @@ public class SubDevActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(SubDevActivity.this, android.R.layout.simple_list_item_1, developerId);
-        devList.setAdapter(adapter);
-
-        /*for(int i = 0; i <developerId.size(); i++) {
-            final int index = i;
-            final StringRequest stringRequest2 = new StringRequest(Request.Method.POST, PROJECT_URL,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            try {
-                                JSONArray j = new JSONArray(response);
-
-                                for (int i = 0; i < j.length(); i++) {
-                                    JSONObject JOStuff = j.getJSONObject(i);
-                                    developerName.add(JOStuff.getString("name"));
-                                }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(SubDevActivity.this, error.toString(), Toast.LENGTH_LONG).show();
-                        }
-                    }) {
-                @Override
-                protected Map<String, String> getParams() {
-                    Map<String, String> params = new HashMap<>();
-                    params.put("tag", "subdevpart2");
-                    params.put("id_user", developerId.get(index));
-                    return params;
-                }
-            };
-            requestQueue.add(stringRequest2);
-        }*/
+        devList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(SubDevActivity.this, TaskProjetsListActivity.class);
+                intent.putExtra("idProjet", idProjet);
+                sub(developerId.get(developerId.indexOf(((TextView) view).getText())));
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     @Override
@@ -133,5 +109,32 @@ public class SubDevActivity extends AppCompatActivity {
         startActivity(intent);
         finish();
         return true;
+    }
+
+    public void sub(final String id) {
+        final StringRequest stringRequest = new StringRequest(Request.Method.POST, PROJECT_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(SubDevActivity.this, response, Toast.LENGTH_LONG).show();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(SubDevActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("tag", "subdev");
+                params.put("id_user", id);
+                params.put("id_projet", Integer.toString(idProjet));
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
 }

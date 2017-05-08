@@ -52,7 +52,7 @@ public class TaskProjetsListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         idProjet = getIntent().getIntExtra("idProjet",0);
-
+        //Toast.makeText(TaskProjetsListActivity.this, idProjet, Toast.LENGTH_LONG).show();
         taskList = (ListView) findViewById(R.id.taskList);
 
         final StringRequest stringRequest = new StringRequest(Request.Method.POST, PROJECT_URL,
@@ -89,7 +89,7 @@ public class TaskProjetsListActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("tag", "scrummastertasks");
-                params.put("id_projet", Integer.toString(idProjet));
+                params.put("id_project", Integer.toString(idProjet));
                 return params;
             }
         };
