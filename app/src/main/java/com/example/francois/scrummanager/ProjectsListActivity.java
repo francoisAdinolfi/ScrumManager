@@ -1,7 +1,6 @@
 package com.example.francois.scrummanager;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -10,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -107,7 +105,7 @@ public class ProjectsListActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         if(!session.getUserDetails().get(SessionManager.KEY_ROLE).equals("scrummaster")){
-            menu.findItem(R.id.action_addproject).setVisible(false);
+            menu.findItem(R.id.action_add).setVisible(false);
         }
         return true;
     }
@@ -118,7 +116,7 @@ public class ProjectsListActivity extends AppCompatActivity {
             case R.id.action_logout:
                 session.logoutUser();
                 return true;
-            case R.id.action_addproject:
+            case R.id.action_add:
                 startActivity(new Intent(ProjectsListActivity.this, AddProjectActivity.class));
                 return true;
         }

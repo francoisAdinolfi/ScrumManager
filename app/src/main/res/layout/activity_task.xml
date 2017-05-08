@@ -34,14 +34,29 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp" />
 
-        <TextView
-            android:id="@+id/textVote"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:paddingTop="24dp"
-            android:text="Vote :"
-            android:textStyle="bold" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/textVote"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingTop="24dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/countVotes"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingRight="10dp"
+                android:paddingTop="24dp"
+                android:textAlignment="textEnd"
+                android:visibility="gone" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/isVotedText"
@@ -50,6 +65,14 @@
             android:text="You have already voted"
             android:textAlignment="center"
             android:visibility="gone" />
+
+        <ListView
+            android:id="@+id/listVotes"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:visibility="gone"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -62,14 +85,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/estimationText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp" />
+                android:paddingRight="10dp"
+                android:visibility="gone" />
+
         </LinearLayout>
 
         <Button
@@ -78,7 +104,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="10dp"
-            android:text="Vote" />
+            android:text="Vote"
+            android:visibility="gone" />
 
     </LinearLayout>
 </ScrollView>

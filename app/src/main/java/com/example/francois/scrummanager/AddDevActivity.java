@@ -153,7 +153,7 @@ public class AddDevActivity extends AppCompatActivity {
                 Map<String, String> params = new HashMap<>();
                 params.put("tag", "adddev");
                 params.put("id_user", id);
-                params.put("id_projet", Integer.toString(idProjet));
+                params.put("id_project", Integer.toString(idProjet));
                 return params;
             }
         };
