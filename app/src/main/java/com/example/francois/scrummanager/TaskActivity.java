@@ -54,69 +54,73 @@ public class TaskActivity extends AppCompatActivity {
             findViewById(R.id.seekBar).setVisibility(View.GONE);
             findViewById(R.id.estimationText).setVisibility(View.GONE);
             findViewById(R.id.btnVote).setVisibility(View.GONE);
-        }
-
-        final StringRequest stringRequest = new StringRequest(Request.Method.POST, VOTE_URL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        if(response.equals("true")) {
-                            findViewById(R.id.seekBar).setVisibility(View.GONE);
-                            findViewById(R.id.estimationText).setVisibility(View.GONE);
-                            findViewById(R.id.btnVote).setVisibility(View.GONE);
-                            findViewById(R.id.isVotedText).setVisibility(View.VISIBLE);
+        } else {
+            final StringRequest stringRequest = new StringRequest(Request.Method.POST, VOTE_URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            if (response.equals("true")) {
+                                findViewById(R.id.isVotedText).setVisibility(View.VISIBLE);
+                            } else {
+                                findViewById(R.id.seekBar).setVisibility(View.VISIBLE);
+                                findViewById(R.id.estimationText).setVisibility(View.VISIBLE);
+                                findViewById(R.id.btnVote).setVisibility(View.VISIBLE);
+                            }
                         }
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(TaskActivity.this, error.toString(), Toast.LENGTH_LONG).show();
-                    }
-                }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<>();
-                params.put("tag", "isvoted");
-                params.put("id_user", session.getUserDetails().get(SessionManager.KEY_ID));
-                return params;
-            }
-        };
-        RequestQueue requestQueue = Volley.newRequestQueue(this);
-        requestQueue.add(stringRequest);
-
-        final SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);
-        seekBar.setMax(30);
-        estimationText = (TextView) findViewById(R.id.estimationText);
-        estimationText.setText(seekBar.getProgress() + " half days");
-
-        seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            int progress = 0;
-            public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
-                progress = progresValue;
-            }
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                estimationText.setText(seekBar.getProgress() + " half days");
-            }
-        });
-
-        btnVote = (Button) findViewById(R.id.btnVote);
-
-        btnVote.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int estimation = seekBar.getProgress();
-                if (estimation == 0) {
-                    Toast.makeText(getApplicationContext(), "The estimation should be different from 0", Toast.LENGTH_LONG).show();
-                } else {
-                    add(estimation, task);
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(TaskActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                        }
+                    }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("tag", "isvoted");
+                    params.put("id_user", session.getUserDetails().get(SessionManager.KEY_ID));
+                    return params;
                 }
-            }
-        });
+            };
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            requestQueue.add(stringRequest);
+
+            final SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);
+            seekBar.setMax(30);
+            estimationText = (TextView) findViewById(R.id.estimationText);
+            estimationText.setText(seekBar.getProgress() + " half days");
+
+            seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                int progress = 0;
+
+                public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
+                    progress = progresValue;
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    estimationText.setText(seekBar.getProgress() + " half days");
+                }
+            });
+
+            btnVote = (Button) findViewById(R.id.btnVote);
+
+            btnVote.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    int estimation = seekBar.getProgress();
+                    if (estimation == 0) {
+                        Toast.makeText(getApplicationContext(), "The estimation should be different from 0", Toast.LENGTH_LONG).show();
+                    } else {
+                        add(estimation, task);
+                    }
+                }
+            });
+        }
     }
 
     @Override
@@ -127,8 +131,8 @@ public class TaskActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menutask, menu);
-        menu.findItem(R.id.action_addtask).setVisible(false);
+        getMenuInflater().inflate(R.menu.menu, menu);
+        menu.findItem(R.id.action_add).setVisible(false);
         return true;
     }
 
