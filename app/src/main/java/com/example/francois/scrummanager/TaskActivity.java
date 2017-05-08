@@ -7,7 +7,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +21,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,8 +33,8 @@ import java.util.Map;
 public class TaskActivity extends AppCompatActivity {
     private static final String VOTE_URL = "http://scrummaster.pe.hu/vote.php";
     private SessionManager session;
+    private ArrayList<String> votes = new ArrayList<>();
     private TextView estimationText;
-    private Button btnVote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +55,54 @@ public class TaskActivity extends AppCompatActivity {
         final TextView description = (TextView) findViewById(R.id.description);
         description.setText(task.get(2));
 
+        final TextView TextVote = (TextView) findViewById(R.id.textVote);
 
         if(session.getUserDetails().get(SessionManager.KEY_ROLE).equals("scrummaster")){
-            findViewById(R.id.textVote).setVisibility(View.GONE);
-            findViewById(R.id.seekBar).setVisibility(View.GONE);
-            findViewById(R.id.estimationText).setVisibility(View.GONE);
-            findViewById(R.id.btnVote).setVisibility(View.GONE);
+            TextVote.setText("Votes : ");
+            final TextView countVotes = (TextView) findViewById(R.id.countVotes);
+            countVotes.setVisibility(View.VISIBLE);
+            final ListView listVotes = (ListView) findViewById(R.id.listVotes);
+            listVotes.setVisibility(View.VISIBLE);
+
+            final StringRequest stringRequest = new StringRequest(Request.Method.POST, VOTE_URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            try {
+                                JSONArray j = new JSONArray(response);
+
+                                countVotes.setText(j.length()-1 + " / " + j.getJSONObject(j.length()-1).getString("0"));
+
+                                for (int i = 0; i < j.length()-1; i++) {
+                                    JSONObject JOStuff = j.getJSONObject(i);
+                                    votes.add("Name : " + JOStuff.getString("name") + "     Estimation : " + JOStuff.getString("estimation"));
+                                }
+
+                                ArrayAdapter<String> adapter = new ArrayAdapter<>(TaskActivity.this, android.R.layout.simple_list_item_1, votes);
+                                listVotes.setAdapter(adapter);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(TaskActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                        }
+                    }) {
+                @Override
+                protected Map<String, String> getParams() {
+                    Map<String, String> params = new HashMap<>();
+                    params.put("tag", "getvotes");
+                    params.put("id_task", task.get(0));
+                    return params;
+                }
+            };
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            requestQueue.add(stringRequest);
         } else {
+            TextVote.setText("Vote : ");
             final StringRequest stringRequest = new StringRequest(Request.Method.POST, VOTE_URL,
                     new Response.Listener<String>() {
                         @Override
@@ -107,7 +155,7 @@ public class TaskActivity extends AppCompatActivity {
                 }
             });
 
-            btnVote = (Button) findViewById(R.id.btnVote);
+            Button btnVote = (Button) findViewById(R.id.btnVote);
 
             btnVote.setOnClickListener(new View.OnClickListener() {
                 @Override

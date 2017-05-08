@@ -89,7 +89,7 @@ public class TaskProjetsListActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("tag", "scrummastertasks");
-                params.put("id_projet", Integer.toString(idProjet));
+                params.put("id_project", Integer.toString(idProjet));
                 return params;
             }
         };

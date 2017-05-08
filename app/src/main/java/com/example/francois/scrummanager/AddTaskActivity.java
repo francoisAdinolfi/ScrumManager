@@ -92,7 +92,7 @@ public class AddTaskActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("tag", "addtask");
-                params.put("id_projet", Integer.toString(idProjet));
+                params.put("id_project", Integer.toString(idProjet));
                 params.put("name", name);
                 params.put("description", description);
                 return params;
