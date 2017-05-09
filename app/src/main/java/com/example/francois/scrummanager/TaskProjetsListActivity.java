@@ -69,6 +69,7 @@ public class TaskProjetsListActivity extends AppCompatActivity {
                                 taskTmp.add(JOStuff.getString("id_task"));
                                 taskTmp.add(JOStuff.getString("name"));
                                 taskTmp.add(JOStuff.getString("description"));
+                                taskTmp.add(JOStuff.getString("id_project"));
                                 tasks.add(taskTmp);
                             }
 
@@ -103,6 +104,7 @@ public class TaskProjetsListActivity extends AppCompatActivity {
                 Intent intent = new Intent(TaskProjetsListActivity.this, TaskActivity.class);
                 intent.putExtra("task", task);
                 startActivity(intent);
+                finish();
             }
         });
     }

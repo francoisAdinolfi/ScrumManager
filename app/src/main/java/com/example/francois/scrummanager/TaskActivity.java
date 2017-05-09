@@ -31,6 +31,7 @@ import java.util.Map;
 
 public class TaskActivity extends AppCompatActivity {
     private static final String VOTE_URL = "http://scrummaster.pe.hu/vote.php";
+    private static final String DELETE_URL = "http://scrummaster.pe.hu/delete.php";
     private SessionManager session;
     private ArrayList<String> votes = new ArrayList<>();
     private TextView estimationText;
@@ -62,6 +63,8 @@ public class TaskActivity extends AppCompatActivity {
             countVotes.setVisibility(View.VISIBLE);
             final ListView listVotes = (ListView) findViewById(R.id.listVotes);
             listVotes.setVisibility(View.VISIBLE);
+            final Button btnDelete = (Button) findViewById(R.id.btnDelete);
+            btnDelete.setVisibility(View.VISIBLE);
 
             final StringRequest stringRequest = new StringRequest(Request.Method.POST, VOTE_URL,
                     new Response.Listener<String>() {
@@ -100,6 +103,14 @@ public class TaskActivity extends AppCompatActivity {
             };
             RequestQueue requestQueue = Volley.newRequestQueue(this);
             requestQueue.add(stringRequest);
+
+            btnDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    delete(task);
+                }
+            });
+
         } else {
             TextVote.setText("Vote : ");
             final StringRequest stringRequest = new StringRequest(Request.Method.POST, VOTE_URL,
@@ -217,6 +228,36 @@ public class TaskActivity extends AppCompatActivity {
                 params.put("tag", "addvote");
                 params.put("estimation", String.valueOf(estimation));
                 params.put("id_user", session.getUserDetails().get(SessionManager.KEY_ID));
+                params.put("id_task", task.get(0));
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+    }
+
+    public void delete(final ArrayList<String> task){
+        final StringRequest stringRequest = new StringRequest(Request.Method.POST, DELETE_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(TaskActivity.this, response, Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(TaskActivity.this, TaskProjetsListActivity.class);
+                        intent.putExtra("idProjet", Integer.valueOf(task.get(3)));
+                        startActivity(intent);
+                        finish();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(TaskActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("tag", "deltask");
                 params.put("id_task", task.get(0));
                 return params;
             }
