@@ -25,7 +25,6 @@ import java.util.Map;
 public class LoginActivity extends Activity {
     private static final String USER_URL = "http://scrummaster.pe.hu/user.php";
     private Button btnLogin;
-    private TextView linkRegister;
     private EditText inputEmail;
     private EditText inputPassword;
     private SessionManager session;
@@ -45,7 +44,7 @@ public class LoginActivity extends Activity {
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
         btnLogin = (Button) findViewById(R.id.btnLogin);
-        linkRegister = (TextView) findViewById(R.id.linkRegister);
+        TextView linkRegister = (TextView) findViewById(R.id.linkRegister);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,7 +100,7 @@ public class LoginActivity extends Activity {
                 }) {
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("tag", "login");
                 params.put("email", email);
                 params.put("password", password);

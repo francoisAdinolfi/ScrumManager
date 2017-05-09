@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,15 +16,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.HashMap;
 import java.util.Map;
 
 public class AddProjectActivity extends AppCompatActivity {
     private static final String PROJECT_URL = "http://scrummaster.pe.hu/project.php";
-    private Button btnAdd;
     private EditText inputName;
     private EditText inputDescription;
     private SessionManager session;
@@ -37,7 +32,6 @@ public class AddProjectActivity extends AppCompatActivity {
 
         session = new SessionManager(getApplicationContext());
         session.checkLogin();
-        final HashMap<String, String> user = session.getUserDetails();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Add A Project :");
@@ -45,7 +39,7 @@ public class AddProjectActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        btnAdd = (Button) findViewById(R.id.btnAdd);
+        Button btnAdd = (Button) findViewById(R.id.btnAdd);
         inputName = (EditText) findViewById(R.id.name);
         inputDescription = (EditText) findViewById(R.id.description);
 
@@ -89,7 +83,7 @@ public class AddProjectActivity extends AppCompatActivity {
                 }) {
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("tag", "addproject");
                 params.put("id_user", session.getUserDetails().get(SessionManager.KEY_ID));
                 params.put("name", name);

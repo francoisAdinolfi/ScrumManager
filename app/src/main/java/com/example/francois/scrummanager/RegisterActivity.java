@@ -25,8 +25,6 @@ import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
     private static final String USER_URL = "http://scrummaster.pe.hu/user.php";
-    private Button btnRegister;
-    private TextView linkLogin;
     private EditText inputName;
     private EditText inputEmail;
     private EditText inputPassword;
@@ -40,8 +38,8 @@ public class RegisterActivity extends AppCompatActivity {
         inputName = (EditText) findViewById(R.id.name);
         inputEmail = (EditText) findViewById(R.id.email);
         inputPassword = (EditText) findViewById(R.id.password);
-        btnRegister = (Button) findViewById(R.id.btnRegister);
-        linkLogin = (TextView) findViewById(R.id.linkLogin);
+        Button btnRegister = (Button) findViewById(R.id.btnRegister);
+        TextView linkLogin = (TextView) findViewById(R.id.linkLogin);
         radioGroup = (RadioGroup)findViewById(R.id.radioGroup);
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
@@ -100,7 +98,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }) {
             @Override
             protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
+                Map<String, String> params = new HashMap<>();
                 params.put("tag", "register");
                 params.put("name", name);
                 params.put("email", email);
