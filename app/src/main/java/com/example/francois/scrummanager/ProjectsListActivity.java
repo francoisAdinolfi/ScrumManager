@@ -94,7 +94,7 @@ public class ProjectsListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 int idprojet = idProjects.get(projects.indexOf(((TextView) view).getText()));
-                Intent intent = new Intent(ProjectsListActivity.this, TaskProjetsListActivity.class);
+                Intent intent = new Intent(ProjectsListActivity.this, TasksListActivity.class);
                 intent.putExtra("idProjet",idprojet);
                 startActivity(intent);
             }
@@ -113,11 +113,14 @@ public class ProjectsListActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.action_logout:
-                session.logoutUser();
-                return true;
             case R.id.action_add:
                 startActivity(new Intent(ProjectsListActivity.this, AddProjectActivity.class));
+                return true;
+            case R.id.action_setting:
+                startActivity(new Intent(ProjectsListActivity.this, SettingActivity.class));
+                return true;
+            case R.id.action_logout:
+                session.logoutUser();
                 return true;
         }
 

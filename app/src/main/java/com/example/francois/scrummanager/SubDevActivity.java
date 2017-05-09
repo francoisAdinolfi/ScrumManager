@@ -93,7 +93,7 @@ public class SubDevActivity extends AppCompatActivity {
         devList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(SubDevActivity.this, TaskProjetsListActivity.class);
+                Intent intent = new Intent(SubDevActivity.this, TasksListActivity.class);
                 intent.putExtra("idProjet", idProjet);
                 sub(developerId.get(developerName.indexOf(((TextView) view).getText())));
                 startActivity(intent);
@@ -104,7 +104,7 @@ public class SubDevActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        Intent intent = new Intent(SubDevActivity.this, TaskProjetsListActivity.class);
+        Intent intent = new Intent(SubDevActivity.this, TasksListActivity.class);
         intent.putExtra("idProjet",idProjet);
         startActivity(intent);
         finish();

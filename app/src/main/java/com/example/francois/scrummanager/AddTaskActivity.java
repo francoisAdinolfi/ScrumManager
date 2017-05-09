@@ -63,7 +63,7 @@ public class AddTaskActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        Intent intent = new Intent(AddTaskActivity.this, TaskProjetsListActivity.class);
+        Intent intent = new Intent(AddTaskActivity.this, TasksListActivity.class);
         intent.putExtra("idProjet",idProjet);
         startActivity(intent);
         finish();
@@ -76,7 +76,7 @@ public class AddTaskActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         Toast.makeText(AddTaskActivity.this, response, Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(AddTaskActivity.this, TaskProjetsListActivity.class);
+                        Intent intent = new Intent(AddTaskActivity.this, TasksListActivity.class);
                         intent.putExtra("idProjet",idProjet);
                         startActivity(intent);
                         finish();

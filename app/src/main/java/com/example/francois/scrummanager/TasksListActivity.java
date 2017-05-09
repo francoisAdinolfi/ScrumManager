@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TaskProjetsListActivity extends AppCompatActivity {
+public class TasksListActivity extends AppCompatActivity {
 
     private static final String PROJECT_URL = "http://scrummaster.pe.hu/project.php";
     private static final String DELETE_URL = "http://scrummaster.pe.hu/delete.php";
@@ -54,7 +54,7 @@ public class TaskProjetsListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         idProjet = getIntent().getIntExtra("idProjet",0);
-        //Toast.makeText(TaskProjetsListActivity.this, idProjet, Toast.LENGTH_LONG).show();
+        //Toast.makeText(TasksListActivity.this, idProjet, Toast.LENGTH_LONG).show();
         taskList = (ListView) findViewById(R.id.taskList);
 
         if(session.getUserDetails().get(SessionManager.KEY_ROLE).equals("scrummaster")) {
@@ -87,7 +87,7 @@ public class TaskProjetsListActivity extends AppCompatActivity {
                                 tasks.add(taskTmp);
                             }
 
-                            ArrayAdapter<String> adapter = new ArrayAdapter<>(TaskProjetsListActivity.this, android.R.layout.simple_list_item_1, tasksName);
+                            ArrayAdapter<String> adapter = new ArrayAdapter<>(TasksListActivity.this, android.R.layout.simple_list_item_1, tasksName);
                             taskList.setAdapter(adapter);
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -97,7 +97,7 @@ public class TaskProjetsListActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(TaskProjetsListActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(TasksListActivity.this, error.toString(), Toast.LENGTH_LONG).show();
                     }
                 }) {
             @Override
@@ -115,7 +115,7 @@ public class TaskProjetsListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ArrayList<String> task = tasks.get(tasksName.indexOf(((TextView) view).getText()));
-                Intent intent = new Intent(TaskProjetsListActivity.this, TaskActivity.class);
+                Intent intent = new Intent(TasksListActivity.this, TaskActivity.class);
                 intent.putExtra("task", task);
                 startActivity(intent);
                 finish();
@@ -134,6 +134,8 @@ public class TaskProjetsListActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menutask, menu);
         if(!session.getUserDetails().get(SessionManager.KEY_ROLE).equals("scrummaster")){
             menu.findItem(R.id.action_addtask).setVisible(false);
+            menu.findItem(R.id.action_subdev).setVisible(false);
+            menu.findItem(R.id.action_adddev).setVisible(false);
         }
         return true;
     }
@@ -141,23 +143,26 @@ public class TaskProjetsListActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
+            case R.id.action_setting:
+                startActivity(new Intent(TasksListActivity.this, SettingActivity.class));
+                return true;
             case R.id.action_logout:
                 session.logoutUser();
                 return true;
             case R.id.action_addtask:
-                Intent intent = new Intent(TaskProjetsListActivity.this, AddTaskActivity.class);
+                Intent intent = new Intent(TasksListActivity.this, AddTaskActivity.class);
                 intent.putExtra("idProjet",idProjet);
                 startActivity(intent);
                 finish();
                 return true;
             case R.id.action_subdev:
-                intent = new Intent(TaskProjetsListActivity.this, SubDevActivity.class);
+                intent = new Intent(TasksListActivity.this, SubDevActivity.class);
                 intent.putExtra("idProjet",idProjet);
                 startActivity(intent);
                 finish();
                 return true;
             case R.id.action_adddev:
-                intent = new Intent(TaskProjetsListActivity.this, AddDevActivity.class);
+                intent = new Intent(TasksListActivity.this, AddDevActivity.class);
                 intent.putExtra("idProjet",idProjet);
                 startActivity(intent);
                 finish();
@@ -172,8 +177,8 @@ public class TaskProjetsListActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(TaskProjetsListActivity.this, response, Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(TaskProjetsListActivity.this, ProjectsListActivity.class);
+                        Toast.makeText(TasksListActivity.this, response, Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(TasksListActivity.this, ProjectsListActivity.class);
                         startActivity(intent);
                         finish();
                     }
@@ -181,7 +186,7 @@ public class TaskProjetsListActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(TaskProjetsListActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(TasksListActivity.this, error.toString(), Toast.LENGTH_LONG).show();
                     }
                 }) {
             @Override

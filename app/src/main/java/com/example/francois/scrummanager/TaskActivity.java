@@ -184,7 +184,7 @@ public class TaskActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        Intent intent = new Intent(TaskActivity.this, TaskProjetsListActivity.class);
+        Intent intent = new Intent(TaskActivity.this, TasksListActivity.class);
         intent.putExtra("idProjet", Integer.valueOf(task.get(3)));
         startActivity(intent);
         finish();
@@ -201,6 +201,9 @@ public class TaskActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
+            case R.id.action_setting:
+                startActivity(new Intent(TaskActivity.this, SettingActivity.class));
+                return true;
             case R.id.action_logout:
                 session.logoutUser();
                 return true;
@@ -246,7 +249,7 @@ public class TaskActivity extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         Toast.makeText(TaskActivity.this, response, Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(TaskActivity.this, TaskProjetsListActivity.class);
+                        Intent intent = new Intent(TaskActivity.this, TasksListActivity.class);
                         intent.putExtra("idProjet", Integer.valueOf(task.get(3)));
                         startActivity(intent);
                         finish();
