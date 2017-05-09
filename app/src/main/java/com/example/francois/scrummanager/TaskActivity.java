@@ -138,6 +138,7 @@ public class TaskActivity extends AppCompatActivity {
                     Map<String, String> params = new HashMap<>();
                     params.put("tag", "isvoted");
                     params.put("id_user", session.getUserDetails().get(SessionManager.KEY_ID));
+                    params.put("id_task", task.get(0));
                     return params;
                 }
             };
@@ -145,7 +146,7 @@ public class TaskActivity extends AppCompatActivity {
             requestQueue.add(stringRequest);
 
             final SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);
-            seekBar.setMax(30);
+            seekBar.setMax(14);
             estimationText = (TextView) findViewById(R.id.estimationText);
             estimationText.setText(seekBar.getProgress() + " half days");
 

@@ -53,8 +53,7 @@ public class TasksListActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        idProjet = getIntent().getIntExtra("idProjet",0);
-        //Toast.makeText(TasksListActivity.this, idProjet, Toast.LENGTH_LONG).show();
+        idProjet = getIntent().getIntExtra("idProjet", 0);
         taskList = (ListView) findViewById(R.id.taskList);
 
         if(session.getUserDetails().get(SessionManager.KEY_ROLE).equals("scrummaster")) {
