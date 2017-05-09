@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +32,7 @@ import java.util.Map;
 public class TaskProjetsListActivity extends AppCompatActivity {
 
     private static final String PROJECT_URL = "http://scrummaster.pe.hu/project.php";
+    private static final String DELETE_URL = "http://scrummaster.pe.hu/delete.php";
     private SessionManager session;
     private ListView taskList;
     private int idProjet;
@@ -54,6 +56,18 @@ public class TaskProjetsListActivity extends AppCompatActivity {
         idProjet = getIntent().getIntExtra("idProjet",0);
         //Toast.makeText(TaskProjetsListActivity.this, idProjet, Toast.LENGTH_LONG).show();
         taskList = (ListView) findViewById(R.id.taskList);
+
+        if(session.getUserDetails().get(SessionManager.KEY_ROLE).equals("scrummaster")) {
+            final Button btnDelete = (Button) findViewById(R.id.btnDelete);
+            btnDelete.setVisibility(View.VISIBLE);
+
+            btnDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    delete(idProjet);
+                }
+            });
+        }
 
         final StringRequest stringRequest = new StringRequest(Request.Method.POST, PROJECT_URL,
                 new Response.Listener<String>() {
@@ -151,5 +165,34 @@ public class TaskProjetsListActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void delete(final int idProjet){
+        final StringRequest stringRequest = new StringRequest(Request.Method.POST, DELETE_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Toast.makeText(TaskProjetsListActivity.this, response, Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(TaskProjetsListActivity.this, ProjectsListActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(TaskProjetsListActivity.this, error.toString(), Toast.LENGTH_LONG).show();
+                    }
+                }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("tag", "delproject");
+                params.put("id_project", Integer.toString(idProjet));
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
     }
 }

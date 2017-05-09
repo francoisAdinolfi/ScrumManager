@@ -35,6 +35,7 @@ public class TaskActivity extends AppCompatActivity {
     private SessionManager session;
     private ArrayList<String> votes = new ArrayList<>();
     private TextView estimationText;
+    private ArrayList<String> task;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +45,7 @@ public class TaskActivity extends AppCompatActivity {
         session = new SessionManager(getApplicationContext());
         session.checkLogin();
 
-        final ArrayList<String> task = (ArrayList<String>) getIntent().getSerializableExtra("task");
+        task = (ArrayList<String>) getIntent().getSerializableExtra("task");
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(task.get(1));
@@ -183,7 +184,10 @@ public class TaskActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        super.onBackPressed();
+        Intent intent = new Intent(TaskActivity.this, TaskProjetsListActivity.class);
+        intent.putExtra("idProjet", Integer.valueOf(task.get(3)));
+        startActivity(intent);
+        finish();
         return true;
     }
 
