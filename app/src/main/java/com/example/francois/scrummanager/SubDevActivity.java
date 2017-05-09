@@ -29,7 +29,6 @@ import java.util.Map;
 public class SubDevActivity extends AppCompatActivity {
 
     private static final String PROJECT_URL = "http://scrummaster.pe.hu/developer.php";
-    private SessionManager session;
     private ListView devList;
     private int idProjet;
     private ArrayList<String> developerName = new ArrayList<>();
@@ -40,7 +39,7 @@ public class SubDevActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sub_dev);
 
-        session = new SessionManager(getApplicationContext());
+        SessionManager session = new SessionManager(getApplicationContext());
         session.checkLogin();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -56,16 +55,17 @@ public class SubDevActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                         try {
-                             JSONArray j = new JSONArray(response);
+                        try {
+                            JSONArray j = new JSONArray(response);
 
                             for (int i = 0; i < j.length(); i++) {
                                 JSONObject JOStuff = j.getJSONObject(i);
                                 developerId.add(JOStuff.getString("id_user"));
+                                developerName.add(JOStuff.getString("name"));
                             }
 
-                             ArrayAdapter<String> adapter = new ArrayAdapter<>(SubDevActivity.this, android.R.layout.simple_list_item_1, developerId);
-                             devList.setAdapter(adapter);
+                            ArrayAdapter<String> adapter = new ArrayAdapter<>(SubDevActivity.this, android.R.layout.simple_list_item_1, developerName);
+                            devList.setAdapter(adapter);
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -95,7 +95,7 @@ public class SubDevActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(SubDevActivity.this, TaskProjetsListActivity.class);
                 intent.putExtra("idProjet", idProjet);
-                sub(developerId.get(developerId.indexOf(((TextView) view).getText())));
+                sub(developerId.get(developerName.indexOf(((TextView) view).getText())));
                 startActivity(intent);
                 finish();
             }
