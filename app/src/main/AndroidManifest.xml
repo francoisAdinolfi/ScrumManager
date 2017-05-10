@@ -31,7 +31,9 @@
         <activity android:name=".AddTaskActivity" />
         <activity android:name=".TaskActivity" />
         <activity android:name=".SubDevActivity" />
-        <activity android:name=".AddDevActivity" />
+        <activity
+            android:name=".AddDevActivity"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".SettingActivity"
             android:windowSoftInputMode="stateHidden" />

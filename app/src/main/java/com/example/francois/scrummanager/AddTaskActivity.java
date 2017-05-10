@@ -36,7 +36,7 @@ public class AddTaskActivity extends AppCompatActivity {
         session.checkLogin();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Add A Task :");
+        toolbar.setTitle("Add A Task");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -65,6 +65,7 @@ public class AddTaskActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         Intent intent = new Intent(AddTaskActivity.this, TasksListActivity.class);
         intent.putExtra("idProjet",idProjet);
+        intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
         startActivity(intent);
         finish();
         return true;
@@ -78,6 +79,7 @@ public class AddTaskActivity extends AppCompatActivity {
                         Toast.makeText(AddTaskActivity.this, response, Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(AddTaskActivity.this, TasksListActivity.class);
                         intent.putExtra("idProjet",idProjet);
+                        intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
                         startActivity(intent);
                         finish();
                     }

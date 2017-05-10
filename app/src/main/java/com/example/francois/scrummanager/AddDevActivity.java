@@ -29,8 +29,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AddDevActivity extends AppCompatActivity {
-
-    private static final String PROJECT_URL = "http://scrummaster.pe.hu/developer.php";
+    private static final String DEVELOPER_URL = "http://scrummaster.pe.hu/developer.php";
     private SessionManager session;
     private ListView devList;
     private int idProjet;
@@ -48,7 +47,7 @@ public class AddDevActivity extends AppCompatActivity {
         session.checkLogin();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Add Developer :");
+        toolbar.setTitle("Add A Developer");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -74,9 +73,10 @@ public class AddDevActivity extends AppCompatActivity {
         devList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                add(developerId.get(developerName.indexOf(((TextView) view).getText())));
                 Intent intent = new Intent(AddDevActivity.this, TasksListActivity.class);
                 intent.putExtra("idProjet", idProjet);
-                add(developerId.get(developerName.indexOf(((TextView) view).getText())));
+                intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
                 startActivity(intent);
                 finish();
             }
@@ -85,14 +85,15 @@ public class AddDevActivity extends AppCompatActivity {
 
     public boolean onSupportNavigateUp() {
         Intent intent = new Intent(AddDevActivity.this, TasksListActivity.class);
-        intent.putExtra("idProjet",idProjet);
+        intent.putExtra("idProjet", idProjet);
+        intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
         startActivity(intent);
         finish();
         return true;
     }
 
     public void search(final String name) {
-        final StringRequest stringRequest = new StringRequest(Request.Method.POST, PROJECT_URL,
+        final StringRequest stringRequest = new StringRequest(Request.Method.POST, DEVELOPER_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -135,7 +136,7 @@ public class AddDevActivity extends AppCompatActivity {
     }
 
     public void add(final String id) {
-        final StringRequest stringRequest = new StringRequest(Request.Method.POST, PROJECT_URL,
+        final StringRequest stringRequest = new StringRequest(Request.Method.POST, DEVELOPER_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {

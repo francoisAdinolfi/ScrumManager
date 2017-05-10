@@ -48,7 +48,7 @@ public class TasksListActivity extends AppCompatActivity {
         session.checkLogin();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("TaskList :");
+        toolbar.setTitle(getIntent().getStringExtra("nameProjet"));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -102,7 +102,7 @@ public class TasksListActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("tag", "scrummastertasks");
+                params.put("tag", "gettasks");
                 params.put("id_project", Integer.toString(idProjet));
                 return params;
             }
@@ -116,6 +116,7 @@ public class TasksListActivity extends AppCompatActivity {
                 ArrayList<String> task = tasks.get(tasksName.indexOf(((TextView) view).getText()));
                 Intent intent = new Intent(TasksListActivity.this, TaskActivity.class);
                 intent.putExtra("task", task);
+                intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
                 startActivity(intent);
                 finish();
             }
@@ -124,7 +125,9 @@ public class TasksListActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        super.onBackPressed();
+        Intent intent = new Intent(TasksListActivity.this, ProjectsListActivity.class);
+        startActivity(intent);
+        finish();
         return true;
     }
 
@@ -142,29 +145,32 @@ public class TasksListActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.action_setting:
-                startActivity(new Intent(TasksListActivity.this, SettingActivity.class));
-                return true;
-            case R.id.action_logout:
-                session.logoutUser();
-                return true;
-            case R.id.action_addtask:
-                Intent intent = new Intent(TasksListActivity.this, AddTaskActivity.class);
+            case R.id.action_adddev:
+                Intent intent = new Intent(TasksListActivity.this, AddDevActivity.class);
                 intent.putExtra("idProjet",idProjet);
+                intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
                 startActivity(intent);
                 finish();
                 return true;
             case R.id.action_subdev:
                 intent = new Intent(TasksListActivity.this, SubDevActivity.class);
                 intent.putExtra("idProjet",idProjet);
+                intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
                 startActivity(intent);
                 finish();
                 return true;
-            case R.id.action_adddev:
-                intent = new Intent(TasksListActivity.this, AddDevActivity.class);
+            case R.id.action_addtask:
+                intent = new Intent(TasksListActivity.this, AddTaskActivity.class);
                 intent.putExtra("idProjet",idProjet);
+                intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
                 startActivity(intent);
                 finish();
+                return true;
+            case R.id.action_setting:
+                startActivity(new Intent(TasksListActivity.this, SettingActivity.class));
+                return true;
+            case R.id.action_logout:
+                session.logoutUser();
                 return true;
         }
 

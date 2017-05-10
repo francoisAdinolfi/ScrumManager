@@ -34,7 +34,7 @@ public class AddProjectActivity extends AppCompatActivity {
         session.checkLogin();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Add A Project :");
+        toolbar.setTitle("Add A Project");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -60,7 +60,9 @@ public class AddProjectActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        onBackPressed();
+        Intent intent = new Intent(AddProjectActivity.this, ProjectsListActivity.class);
+        startActivity(intent);
+        finish();
         return true;
     }
 

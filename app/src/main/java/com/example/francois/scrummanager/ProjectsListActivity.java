@@ -45,7 +45,7 @@ public class ProjectsListActivity extends AppCompatActivity {
         final HashMap<String, String> user = session.getUserDetails();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("My Projects :");
+        toolbar.setTitle("My Projects");
         setSupportActionBar(toolbar);
 
         listProjects = (ListView) findViewById(R.id.listProjects);
@@ -80,9 +80,9 @@ public class ProjectsListActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 if(user.get(SessionManager.KEY_ROLE).equals("scrummaster"))
-                    params.put("tag", "scrummasterprojects");
+                    params.put("tag", "getscrummasterprojects");
                 else
-                    params.put("tag", "developerprojects");
+                    params.put("tag", "getdeveloperprojects");
                 params.put("id_user", user.get(SessionManager.KEY_ID));
                 return params;
             }
@@ -95,8 +95,10 @@ public class ProjectsListActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 int idprojet = idProjects.get(projects.indexOf(((TextView) view).getText()));
                 Intent intent = new Intent(ProjectsListActivity.this, TasksListActivity.class);
-                intent.putExtra("idProjet",idprojet);
+                intent.putExtra("idProjet", idprojet);
+                intent.putExtra("nameProjet", ((TextView) view).getText());
                 startActivity(intent);
+                finish();
             }
         });
     }
@@ -115,6 +117,7 @@ public class ProjectsListActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.action_add:
                 startActivity(new Intent(ProjectsListActivity.this, AddProjectActivity.class));
+                finish();
                 return true;
             case R.id.action_setting:
                 startActivity(new Intent(ProjectsListActivity.this, SettingActivity.class));
@@ -123,9 +126,6 @@ public class ProjectsListActivity extends AppCompatActivity {
                 session.logoutUser();
                 return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
-
-
 }

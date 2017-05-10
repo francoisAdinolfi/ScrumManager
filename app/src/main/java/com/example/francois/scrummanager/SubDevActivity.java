@@ -28,7 +28,7 @@ import java.util.Map;
 
 public class SubDevActivity extends AppCompatActivity {
 
-    private static final String PROJECT_URL = "http://scrummaster.pe.hu/developer.php";
+    private static final String DEVELOPER_URL = "http://scrummaster.pe.hu/developer.php";
     private ListView devList;
     private int idProjet;
     private ArrayList<String> developerName = new ArrayList<>();
@@ -43,7 +43,7 @@ public class SubDevActivity extends AppCompatActivity {
         session.checkLogin();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Sub Developer :");
+        toolbar.setTitle("Sub A Developer");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -51,7 +51,7 @@ public class SubDevActivity extends AppCompatActivity {
         idProjet = getIntent().getIntExtra("idProjet",0);
         devList = (ListView) findViewById(R.id.subdevlist);
 
-        final StringRequest stringRequest = new StringRequest(Request.Method.POST, PROJECT_URL,
+        final StringRequest stringRequest = new StringRequest(Request.Method.POST, DEVELOPER_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -66,7 +66,6 @@ public class SubDevActivity extends AppCompatActivity {
 
                             ArrayAdapter<String> adapter = new ArrayAdapter<>(SubDevActivity.this, android.R.layout.simple_list_item_1, developerName);
                             devList.setAdapter(adapter);
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -81,7 +80,7 @@ public class SubDevActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("tag", "subdevpart1");
+                params.put("tag", "getdeveloper");
                 params.put("id_projet", Integer.toString(idProjet));
                 return params;
             }
@@ -93,9 +92,10 @@ public class SubDevActivity extends AppCompatActivity {
         devList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                sub(developerId.get(developerName.indexOf(((TextView) view).getText())));
                 Intent intent = new Intent(SubDevActivity.this, TasksListActivity.class);
                 intent.putExtra("idProjet", idProjet);
-                sub(developerId.get(developerName.indexOf(((TextView) view).getText())));
+                intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
                 startActivity(intent);
                 finish();
             }
@@ -105,14 +105,15 @@ public class SubDevActivity extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         Intent intent = new Intent(SubDevActivity.this, TasksListActivity.class);
-        intent.putExtra("idProjet",idProjet);
+        intent.putExtra("idProjet", idProjet);
+        intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
         startActivity(intent);
         finish();
         return true;
     }
 
     public void sub(final String id) {
-        final StringRequest stringRequest = new StringRequest(Request.Method.POST, PROJECT_URL,
+        final StringRequest stringRequest = new StringRequest(Request.Method.POST, DEVELOPER_URL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -128,7 +129,7 @@ public class SubDevActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("tag", "subdev");
+                params.put("tag", "deldev");
                 params.put("id_user", id);
                 params.put("id_projet", Integer.toString(idProjet));
                 return params;
