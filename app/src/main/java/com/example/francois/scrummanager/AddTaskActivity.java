@@ -21,10 +21,8 @@ import java.util.Map;
 
 public class AddTaskActivity extends AppCompatActivity {
     private static final String PROJECT_URL = "http://scrummaster.pe.hu/project.php";
-    private Button btnAdd;
     private EditText inputName;
     private EditText inputDescription;
-    private SessionManager session;
     private int idProjet;
 
     @Override
@@ -32,7 +30,7 @@ public class AddTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
 
-        session = new SessionManager(getApplicationContext());
+        SessionManager session = new SessionManager(getApplicationContext());
         session.checkLogin();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -42,7 +40,7 @@ public class AddTaskActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         idProjet = getIntent().getIntExtra("idProjet",0);
-        btnAdd = (Button) findViewById(R.id.btnAdd);
+        Button btnAdd = (Button) findViewById(R.id.btnAdd);
         inputName = (EditText) findViewById(R.id.name);
         inputDescription = (EditText) findViewById(R.id.description);
 

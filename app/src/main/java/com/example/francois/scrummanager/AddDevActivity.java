@@ -30,10 +30,8 @@ import java.util.Map;
 
 public class AddDevActivity extends AppCompatActivity {
     private static final String DEVELOPER_URL = "http://scrummaster.pe.hu/developer.php";
-    private SessionManager session;
     private ListView devList;
     private int idProjet;
-    private Button btnSearch;
     private EditText inputName;
     private ArrayList<String> developerName;
     private ArrayList<String> developerId;
@@ -43,7 +41,7 @@ public class AddDevActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_dev);
 
-        session = new SessionManager(getApplicationContext());
+        SessionManager session = new SessionManager(getApplicationContext());
         session.checkLogin();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -54,7 +52,7 @@ public class AddDevActivity extends AppCompatActivity {
 
         idProjet = getIntent().getIntExtra("idProjet", 0);
         devList = (ListView) findViewById(R.id.listDev);
-        btnSearch = (Button) findViewById(R.id.btnSearch);
+        Button btnSearch = (Button) findViewById(R.id.btnSearch);
         inputName = (EditText) findViewById(R.id.name);
 
         btnSearch.setOnClickListener(new View.OnClickListener() {
