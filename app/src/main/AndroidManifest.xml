@@ -37,6 +37,7 @@
         <activity
             android:name=".SettingActivity"
             android:windowSoftInputMode="stateHidden" />
+        <activity android:name=".SchedulingActivity"></activity>
     </application>
 
 </manifest>
