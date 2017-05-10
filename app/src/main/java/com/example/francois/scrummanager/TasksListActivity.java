@@ -60,10 +60,19 @@ public class TasksListActivity extends AppCompatActivity {
             final Button btnDelete = (Button) findViewById(R.id.btnDelete);
             btnDelete.setVisibility(View.VISIBLE);
 
+            final Button btnScheduling = (Button) findViewById(R.id.btnScheduling);
+            btnScheduling.setVisibility(View.VISIBLE);
+
             btnDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     delete(idProjet);
+                }
+            });
+            btnScheduling.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    scheduling();
                 }
             });
         }
@@ -204,5 +213,20 @@ public class TasksListActivity extends AppCompatActivity {
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
+    }
+
+    public void scheduling(){
+        double test = Math.round(triangularDistribution(4,8,6));
+        Toast.makeText(TasksListActivity.this, Double.toString(test), Toast.LENGTH_SHORT).show();
+    }
+
+    public double triangularDistribution(double a, double b, double c) {
+        double F = (c - a) / (b - a);
+        double rand = Math.random();
+        if (rand < F) {
+            return a + Math.sqrt(rand * (b - a) * (c - a));
+        } else {
+            return b - Math.sqrt((1 - rand) * (b - a) * (b - c));
+        }
     }
 }

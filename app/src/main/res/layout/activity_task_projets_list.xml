@@ -29,13 +29,27 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btnDelete"
-            android:layout_width="200dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal"
             android:layout_marginTop="10dp"
-            android:text="DELETE PROJECT"
-            android:visibility="gone" />
+            android:gravity="center">
+
+            <Button
+                android:id="@+id/btnScheduling"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="SCHEDULING"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btnDelete"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="DELETE PROJECT"
+                android:visibility="gone" />
+
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>
