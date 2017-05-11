@@ -76,7 +76,7 @@ public class SchedulingActivity extends AppCompatActivity {
 
                             for(ArrayList<String> al : tasks){
                                 ArrayList<Float> abc = getABC(al);
-                                double a = Math.round(triangularLaw(abc.get(0), abc.get(1), abc.get(2)));
+                                double a = triangularLaw(abc.get(0), abc.get(1), abc.get(2));
                                 triangularLaw.add("Tache : " + al.get(1) + "     n = " + a);
                             }
 
