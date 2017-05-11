@@ -38,7 +38,7 @@ public class ProjectsListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_projectslist);
+        setContentView(R.layout.activity_projects_list);
 
         session = new SessionManager(getApplicationContext());
         session.checkLogin();
