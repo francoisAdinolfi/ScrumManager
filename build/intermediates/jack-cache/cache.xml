@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\Nicolas\.android\build-cache\5db01869dcc3839f0ad544f6403cf1921964efeb\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="6ef31f1555bb4cc513ec8d52711365a8b89f3600">
+        <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-27b61268229ec8be6af0b293cd332c882a3cad6b.jar" />
+    </item>
+    <item
+        jar="C:\Users\Nicolas\.android\build-cache\b6b9f828b90f282f40ae1b0fe808d0e211787118\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="44ee06abb66da30f5855e6bf54574e64cdcd982a">
+        <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-7889f33aa85403934f82e90aaadf90013e010a43.jar" />
+    </item>
+    <item
+        jar="C:\Users\Nicolas\.android\build-cache\33e1d3b12a9568496fba37ee334df01a8f0fd59b\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="38789e20ace9ab7dbd00554bd2673ab424478d3b">
+        <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-5ae21e590c41636262298dca5fd7eb34c60b5382.jar" />
+    </item>
+    <item
+        jar="C:\Users\Nicolas\.android\build-cache\a0ada8ba570bdf18c0986ee3510e5d723e746b7d\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="d4cf6227dd6a2ceff0f7dcf0c324380b7abf2c28">
+        <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-7e73f49a8fa669ab560aeab9e716d207ab275eae.jar" />
+    </item>
+    <item
+        jar="C:\Users\Nicolas\.android\build-cache\f61274077a12d6558a0fa787183830b480888999\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-37c7a8a487e7fefcfb7407c458e441f23a5ecba5.jar" />
+    </item>
+    <item
+        jar="C:\Users\Nicolas\.android\build-cache\57eac0c81ef0c635057132c667bde487b96f16be\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="47635644d0d5c103c1dd8360549eb9ba3225c7d3">
+        <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-36b40276c35576ed96968aff9f0c5636b57c77d1.jar" />
+    </item>
+    <item
+        jar="C:\Users\Nicolas\AppData\Local\Android\sdk\extras\android\m2repository\com\android\support\support-annotations\25.3.1\support-annotations-25.3.1.jar"
+        revision="25.0.2"
+        sha1="bf8841d29fa39e077730e7a91222c2ce269fa7c9">
+        <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\support-annotations-25.3.1-b59b3a8cee1c35a9c507b90e3cf246b32002c2d1.jar" />
+    </item>
+    <item
+        jar="C:\Users\Nicolas\AppData\Local\Android\Sdk\platforms\android-25\android.jar"
+        revision="25.0.2"
+        sha1="712a0312fe844a21a1b3812fa960c363a1578984">
+        <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\preJackRuntimeLibraries\debug\jars\8000\40\android-cf36c2ad0a36719afc28563be39c493ce6639af8.jar" />
+    </item>
+    <item
+        jar="C:\Users\Nicolas\.android\build-cache\6db9d20b389418fd939ec68c25e8f1d7ed45132c\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="2cd4b982617e544728de0782d718a58ce1b06e3f">
+        <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-03697289006b521c0c74f742e4b38deb1717cd84.jar" />
+    </item>
+    <item
+        jar="C:\Users\Nicolas\.android\build-cache\7944921cadea13879eb40b2442ae8a109640e500\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="4a26a1154d053ab11aaf4c3967c42a4d66390991">
+        <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-b0605084acddc4c4912da15e6607d27be055f2d4.jar" />
+    </item>
+    <item
+        jar="C:\Users\Nicolas\.android\build-cache\6a31c097b155dcdccaa7ffe76ec133833a1ed333\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="efb8cb62d47d157c29d1521daac7eefd4cb881ee">
+        <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-f636a80f6f27d33ee79601922c9d193575e2909e.jar" />
+    </item>
+    <item
+        jar="C:\Users\Nicolas\.android\build-cache\dc779e328c8f7f536ec27cf6cc0089b59f1de378\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="95519720620b553f63afc789beba9ad582807f7c">
+        <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-c9c46796cbf56da17867a4aeb316ee1a27e1fc5a.jar" />
+    </item>
+    <item
+        jar="C:\Users\Nicolas\.android\build-cache\87a86210ea532098ed84a76acf73f810a3e4f2b2\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="78ea232052df889856dcb7b7b542707c89bb3bfb">
+        <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-439c5c904cac63a97c44942a3ec654b23724deb4.jar" />
+    </item>
+    <item
+        jar="C:\Users\Nicolas\.android\build-cache\0051c864894e1510a4354dd8037451467dee90fa\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="150252b33b00274cc868578ade018fda0d43a3eb">
+        <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-0ba330ff240c622cdfe2f84bb63fedae6a9973fe.jar" />
+    </item>
+    <item
+        jar="C:\Users\Nicolas\.android\build-cache\4e0123dd7228ec30091a0c2a03577789b88e66ae\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="da27a32db6af8954ee8061537c7d476fcb1df46f">
+        <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-4b0065774d21450794b13290902e249ee38af953.jar" />
+    </item>
+    <item
+        jar="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\libs\choco-solver-4.0.4-with-dependencies.jar"
+        revision="25.0.2"
+        sha1="62004fc89a8be899db6afb61d053be98798080a9">
+        <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\choco-solver-4.0.4-with-dependencies-f44ea4be9475b2fef2017002dabc9d5197c3cfb7.jar" />
+    </item>
+    <item
+        jar="C:\Users\Nicolas\AppData\Local\Android\sdk\extras\m2repository\com\android\support\constraint\constraint-layout-solver\1.0.2\constraint-layout-solver-1.0.2.jar"
+        revision="25.0.2"
+        sha1="b9cd8fc6bd15cb915735d34535db30ece0c44603">
+        <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\constraint-layout-solver-1.0.2-054fc6b5ac92eaf63adb8ac6dd732386b023c7db.jar" />
+    </item>
+    <item
+        jar="C:\Users\Nicolas\.android\build-cache\73f270580a718407a67a85a8107d3f3a77e12303\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="45f697922e6f072daa12f8a2995dc77ab03c11da">
+        <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-2bdf51aba91ad84bf639fcc15a7c5ce4d0ea5e9b.jar" />
+    </item>
+    <item
+        jar="C:\Users\Nicolas\AppData\Local\Android\Sdk\platforms\android-25\optional\org.apache.http.legacy.jar"
+        revision="25.0.2"
+        sha1="5f0541a4298daa0590b22cfbde43f85e2a675545">
+        <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\preJackRuntimeLibraries\debug\jars\8000\40\org.apache.http.legacy-5c5d771bd13ac879174c7dfb35d8b291d1a50817.jar" />
+    </item>
+    <item
+        jar="C:\Users\Nicolas\.android\build-cache\a074a9325382daee71ab37bb2cbd5e76c41e84ae\output\jars\classes.jar"
+        revision="25.0.2"
+        sha1="052f5f840f21174a3ecf6544130194e2652cbb73">
+        <dex dex="C:\Users\Nicolas\Documents\GitHub\ScrumManager\app\build\intermediates\transforms\preJackPackagedLibraries\debug\jars\8000\1f\classes-ea6375b22af9a3c4a43d33e7563a7fb9cbb273d2.jar" />
+    </item>
+
+</items>

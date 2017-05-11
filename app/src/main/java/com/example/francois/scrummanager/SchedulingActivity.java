@@ -15,6 +15,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.chocosolver.solver.Model;
+import org.chocosolver.solver.Solution;
+import org.chocosolver.solver.variables.IntVar;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -103,6 +106,24 @@ public class SchedulingActivity extends AppCompatActivity {
         };
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
+
+        int n = 8;
+        Model model = new Model(n + "-queens problem");
+        IntVar[] vars = new IntVar[n];
+        for(int q = 0; q < n; q++){
+            vars[q] = model.intVar("Q_"+q, 1, n);
+        }
+        for(int i  = 0; i < n-1; i++){
+            for(int j = i + 1; j < n; j++){
+                model.arithm(vars[i], "!=",vars[j]).post();
+                model.arithm(vars[i], "!=", vars[j], "-", j - i).post();
+                model.arithm(vars[i], "!=", vars[j], "+", j - i).post();
+            }
+        }
+        Solution solution = model.getSolver().findSolution();
+        if(solution != null){
+            Toast.makeText(SchedulingActivity.this, solution.toString(), Toast.LENGTH_LONG).show();
+        }
     }
 
     public boolean onSupportNavigateUp() {
