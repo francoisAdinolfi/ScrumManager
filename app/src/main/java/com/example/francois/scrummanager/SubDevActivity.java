@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -13,8 +11,6 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -52,31 +48,23 @@ public class SubDevActivity extends AppCompatActivity {
         devList = (ListView) findViewById(R.id.subdevlist);
 
         final StringRequest stringRequest = new StringRequest(Request.Method.POST, DEVELOPER_URL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONArray j = new JSONArray(response);
+                response -> {
+                    try {
+                        JSONArray j = new JSONArray(response);
 
-                            for (int i = 0; i < j.length(); i++) {
-                                JSONObject JOStuff = j.getJSONObject(i);
-                                developerId.add(JOStuff.getString("id_user"));
-                                developerName.add(JOStuff.getString("name"));
-                            }
-
-                            ArrayAdapter<String> adapter = new ArrayAdapter<>(SubDevActivity.this, android.R.layout.simple_list_item_1, developerName);
-                            devList.setAdapter(adapter);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        for (int i = 0; i < j.length(); i++) {
+                            JSONObject JOStuff = j.getJSONObject(i);
+                            developerId.add(JOStuff.getString("id_user"));
+                            developerName.add(JOStuff.getString("name"));
                         }
+
+                        ArrayAdapter<String> adapter = new ArrayAdapter<>(SubDevActivity.this, android.R.layout.simple_list_item_1, developerName);
+                        devList.setAdapter(adapter);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(SubDevActivity.this, error.toString(), Toast.LENGTH_LONG).show();
-                    }
-                }) {
+                error -> Toast.makeText(SubDevActivity.this, error.toString(), Toast.LENGTH_LONG).show()) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
@@ -89,16 +77,13 @@ public class SubDevActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
 
-        devList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                sub(developerId.get(developerName.indexOf(((TextView) view).getText())));
-                Intent intent = new Intent(SubDevActivity.this, TasksListActivity.class);
-                intent.putExtra("idProjet", idProjet);
-                intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
-                startActivity(intent);
-                finish();
-            }
+        devList.setOnItemClickListener((parent, view, position, id) -> {
+            sub(developerId.get(developerName.indexOf(((TextView) view).getText())));
+            Intent intent = new Intent(SubDevActivity.this, TasksListActivity.class);
+            intent.putExtra("idProjet", idProjet);
+            intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
+            startActivity(intent);
+            finish();
         });
     }
 
@@ -114,18 +99,8 @@ public class SubDevActivity extends AppCompatActivity {
 
     public void sub(final String id) {
         final StringRequest stringRequest = new StringRequest(Request.Method.POST, DEVELOPER_URL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Toast.makeText(SubDevActivity.this, response, Toast.LENGTH_LONG).show();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(SubDevActivity.this, error.toString(), Toast.LENGTH_LONG).show();
-                    }
-                }) {
+                response -> Toast.makeText(SubDevActivity.this, response, Toast.LENGTH_LONG).show(),
+                error -> Toast.makeText(SubDevActivity.this, error.toString(), Toast.LENGTH_LONG).show()) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();

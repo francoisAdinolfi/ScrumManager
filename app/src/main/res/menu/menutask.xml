@@ -7,14 +7,6 @@
         app:showAsAction="always" />
 
     <item
-        android:id="@+id/action_setting"
-        android:title="Setting"
-        app:showAsAction="never" />
-
-    <item
-        android:id="@+id/action_logout"
-        android:title="Logout" />
-    <item
         android:id="@+id/action_subdev"
         android:icon="@drawable/subdev"
         android:title="subdev"
@@ -25,4 +17,18 @@
         android:icon="@drawable/ic_add"
         android:title="addtask"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/action_dependencies"
+        android:title="Dependencies"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_setting"
+        android:title="Setting"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_logout"
+        android:title="Logout" />
 </menu>

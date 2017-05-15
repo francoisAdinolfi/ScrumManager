@@ -16,8 +16,6 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -68,32 +66,24 @@ public class TaskActivity extends AppCompatActivity {
             btnDelete.setVisibility(View.VISIBLE);
 
             final StringRequest stringRequest = new StringRequest(Request.Method.POST, VOTE_URL,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            try {
-                                JSONArray j = new JSONArray(response);
+                    response -> {
+                        try {
+                            JSONArray j = new JSONArray(response);
 
-                                countVotes.setText(j.length()-1 + " / " + j.getJSONObject(j.length()-1).getString("0"));
+                            countVotes.setText(j.length()-1 + " / " + j.getJSONObject(j.length()-1).getString("0"));
 
-                                for (int i = 0; i < j.length()-1; i++) {
-                                    JSONObject JOStuff = j.getJSONObject(i);
-                                    votes.add("Name : " + JOStuff.getString("name") + "     Estimation : " + JOStuff.getString("estimation"));
-                                }
-
-                                ArrayAdapter<String> adapter = new ArrayAdapter<>(TaskActivity.this, android.R.layout.simple_list_item_1, votes);
-                                listVotes.setAdapter(adapter);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                            for (int i = 0; i < j.length()-1; i++) {
+                                JSONObject JOStuff = j.getJSONObject(i);
+                                votes.add("Name : " + JOStuff.getString("name") + "     Estimation : " + JOStuff.getString("estimation"));
                             }
+
+                            ArrayAdapter<String> adapter = new ArrayAdapter<>(TaskActivity.this, android.R.layout.simple_list_item_1, votes);
+                            listVotes.setAdapter(adapter);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
                     },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(TaskActivity.this, error.toString(), Toast.LENGTH_LONG).show();
-                        }
-                    }) {
+                    error -> Toast.makeText(TaskActivity.this, error.toString(), Toast.LENGTH_LONG).show()) {
                 @Override
                 protected Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<>();
@@ -105,34 +95,21 @@ public class TaskActivity extends AppCompatActivity {
             RequestQueue requestQueue = Volley.newRequestQueue(this);
             requestQueue.add(stringRequest);
 
-            btnDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    delete(task);
-                }
-            });
+            btnDelete.setOnClickListener(v -> delete(task));
 
         } else {
             TextVote.setText("Vote : ");
             final StringRequest stringRequest = new StringRequest(Request.Method.POST, VOTE_URL,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            if (response.equals("true")) {
-                                findViewById(R.id.isVotedText).setVisibility(View.VISIBLE);
-                            } else {
-                                findViewById(R.id.seekBar).setVisibility(View.VISIBLE);
-                                findViewById(R.id.estimationText).setVisibility(View.VISIBLE);
-                                findViewById(R.id.btnVote).setVisibility(View.VISIBLE);
-                            }
+                    response -> {
+                        if (response.equals("true")) {
+                            findViewById(R.id.isVotedText).setVisibility(View.VISIBLE);
+                        } else {
+                            findViewById(R.id.seekBar).setVisibility(View.VISIBLE);
+                            findViewById(R.id.estimationText).setVisibility(View.VISIBLE);
+                            findViewById(R.id.btnVote).setVisibility(View.VISIBLE);
                         }
                     },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(TaskActivity.this, error.toString(), Toast.LENGTH_LONG).show();
-                        }
-                    }) {
+                    error -> Toast.makeText(TaskActivity.this, error.toString(), Toast.LENGTH_LONG).show()) {
                 @Override
                 protected Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<>();
@@ -169,15 +146,12 @@ public class TaskActivity extends AppCompatActivity {
 
             Button btnVote = (Button) findViewById(R.id.btnVote);
 
-            btnVote.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int estimation = seekBar.getProgress();
-                    if (estimation == 0) {
-                        Toast.makeText(getApplicationContext(), "The estimation should be different from 0", Toast.LENGTH_LONG).show();
-                    } else {
-                        add(estimation, task);
-                    }
+            btnVote.setOnClickListener(v -> {
+                int estimation = seekBar.getProgress();
+                if (estimation == 0) {
+                    Toast.makeText(getApplicationContext(), "The estimation should be different from 0", Toast.LENGTH_LONG).show();
+                } else {
+                    add(estimation, task);
                 }
             });
         }
@@ -216,21 +190,13 @@ public class TaskActivity extends AppCompatActivity {
 
     public void add(final int estimation, final ArrayList<String> task) {
         final StringRequest stringRequest = new StringRequest(Request.Method.POST, VOTE_URL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Toast.makeText(TaskActivity.this, response, Toast.LENGTH_LONG).show();
-                        Intent intent = getIntent();
-                        finish();
-                        startActivity(intent);
-                    }
+                response -> {
+                    Toast.makeText(TaskActivity.this, response, Toast.LENGTH_LONG).show();
+                    Intent intent = getIntent();
+                    finish();
+                    startActivity(intent);
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(TaskActivity.this, error.toString(), Toast.LENGTH_LONG).show();
-                    }
-                }) {
+                error -> Toast.makeText(TaskActivity.this, error.toString(), Toast.LENGTH_LONG).show()) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
@@ -247,23 +213,15 @@ public class TaskActivity extends AppCompatActivity {
 
     public void delete(final ArrayList<String> task){
         final StringRequest stringRequest = new StringRequest(Request.Method.POST, DELETE_URL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Toast.makeText(TaskActivity.this, response, Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(TaskActivity.this, TasksListActivity.class);
-                        intent.putExtra("idProjet", Integer.valueOf(task.get(3)));
-                        intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
-                        startActivity(intent);
-                        finish();
-                    }
+                response -> {
+                    Toast.makeText(TaskActivity.this, response, Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(TaskActivity.this, TasksListActivity.class);
+                    intent.putExtra("idProjet", Integer.valueOf(task.get(3)));
+                    intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
+                    startActivity(intent);
+                    finish();
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(TaskActivity.this, error.toString(), Toast.LENGTH_LONG).show();
-                    }
-                }) {
+                error -> Toast.makeText(TaskActivity.this, error.toString(), Toast.LENGTH_LONG).show()) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();

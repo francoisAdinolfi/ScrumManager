@@ -1,9 +1,5 @@
 package com.example.francois.scrummanager;
 
-/**
- * Created by Nicolas on 19/04/2017.
- */
-
 import java.util.HashMap;
 
 import android.content.Context;

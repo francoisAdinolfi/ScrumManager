@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,8 +13,6 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -55,29 +51,23 @@ public class AddDevActivity extends AppCompatActivity {
         Button btnSearch = (Button) findViewById(R.id.btnSearch);
         inputName = (EditText) findViewById(R.id.name);
 
-        btnSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String name = inputName.getText().toString().trim();
+        btnSearch.setOnClickListener(v -> {
+            String name = inputName.getText().toString().trim();
 
-                if (name.isEmpty()) {
-                    Toast.makeText(getApplicationContext(), "Inputs must be filled", Toast.LENGTH_LONG).show();
-                } else {
-                    search(name);
-                }
+            if (name.isEmpty()) {
+                Toast.makeText(getApplicationContext(), "Inputs must be filled", Toast.LENGTH_LONG).show();
+            } else {
+                search(name);
             }
         });
 
-        devList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                add(developerId.get(developerName.indexOf(((TextView) view).getText())));
-                Intent intent = new Intent(AddDevActivity.this, TasksListActivity.class);
-                intent.putExtra("idProjet", idProjet);
-                intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
-                startActivity(intent);
-                finish();
-            }
+        devList.setOnItemClickListener((parent, view, position, id) -> {
+            add(developerId.get(developerName.indexOf(((TextView) view).getText())));
+            Intent intent = new Intent(AddDevActivity.this, TasksListActivity.class);
+            intent.putExtra("idProjet", idProjet);
+            intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
+            startActivity(intent);
+            finish();
         });
     }
 
@@ -92,35 +82,27 @@ public class AddDevActivity extends AppCompatActivity {
 
     public void search(final String name) {
         final StringRequest stringRequest = new StringRequest(Request.Method.POST, DEVELOPER_URL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONArray j = new JSONArray(response);
+                response -> {
+                    try {
+                        JSONArray j = new JSONArray(response);
 
-                            developerName = new ArrayList<>();
-                            developerId = new ArrayList<>();
+                        developerName = new ArrayList<>();
+                        developerId = new ArrayList<>();
 
-                            for (int i = 0; i < j.length(); i++) {
-                                JSONObject JOStuff = j.getJSONObject(i);
-                                developerName.add(JOStuff.getString("name"));
-                                developerId.add(JOStuff.getString("id_user"));
-                            }
-
-                            ArrayAdapter<String> adapter = new ArrayAdapter<>(AddDevActivity.this, android.R.layout.simple_list_item_1, developerName);
-                            devList.setAdapter(adapter);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        for (int i = 0; i < j.length(); i++) {
+                            JSONObject JOStuff = j.getJSONObject(i);
+                            developerName.add(JOStuff.getString("name"));
+                            developerId.add(JOStuff.getString("id_user"));
                         }
+
+                        ArrayAdapter<String> adapter = new ArrayAdapter<>(AddDevActivity.this, android.R.layout.simple_list_item_1, developerName);
+                        devList.setAdapter(adapter);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(AddDevActivity.this, error.toString(), Toast.LENGTH_LONG).show();
-                    }
-                }) {
+                error -> Toast.makeText(AddDevActivity.this, error.toString(), Toast.LENGTH_LONG).show()) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
@@ -135,18 +117,8 @@ public class AddDevActivity extends AppCompatActivity {
 
     public void add(final String id) {
         final StringRequest stringRequest = new StringRequest(Request.Method.POST, DEVELOPER_URL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Toast.makeText(AddDevActivity.this, response, Toast.LENGTH_LONG).show();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(AddDevActivity.this, error.toString(), Toast.LENGTH_LONG).show();
-                    }
-                }) {
+                response -> Toast.makeText(AddDevActivity.this, response, Toast.LENGTH_LONG).show(),
+                error -> Toast.makeText(AddDevActivity.this, error.toString(), Toast.LENGTH_LONG).show()) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();

@@ -7,7 +7,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -16,8 +15,6 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -30,7 +27,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TasksListActivity extends AppCompatActivity {
-
     private static final String PROJECT_URL = "http://scrummaster.pe.hu/project.php";
     private static final String DELETE_URL = "http://scrummaster.pe.hu/delete.php";
     private SessionManager session;
@@ -63,56 +59,40 @@ public class TasksListActivity extends AppCompatActivity {
             final Button btnDelete = (Button) findViewById(R.id.btnDelete);
             btnDelete.setVisibility(View.VISIBLE);
 
-            btnScheduling.setOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(TasksListActivity.this, SchedulingActivity.class);
-                    intent.putExtra("idProjet",idProjet);
-                    intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
-                    startActivity(intent);
-                    finish();
-                }
+            btnScheduling.setOnClickListener(v -> {
+                Intent intent = new Intent(TasksListActivity.this, SchedulingActivity.class);
+                intent.putExtra("idProjet",idProjet);
+                intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
+                startActivity(intent);
+                finish();
             });
 
-            btnDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    delete(idProjet);
-                }
-            });
+            btnDelete.setOnClickListener(v -> delete(idProjet));
         }
 
         final StringRequest stringRequest = new StringRequest(Request.Method.POST, PROJECT_URL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            JSONArray j = new JSONArray(response);
+                response -> {
+                    try {
+                        JSONArray j = new JSONArray(response);
 
-                            for (int i = 0; i < j.length(); i++) {
-                                JSONObject JOStuff = j.getJSONObject(i);
-                                tasksName.add(JOStuff.getString("name"));
-                                ArrayList<String> taskTmp = new ArrayList<>();
-                                taskTmp.add(JOStuff.getString("id_task"));
-                                taskTmp.add(JOStuff.getString("name"));
-                                taskTmp.add(JOStuff.getString("description"));
-                                taskTmp.add(JOStuff.getString("id_project"));
-                                tasks.add(taskTmp);
-                            }
-
-                            ArrayAdapter<String> adapter = new ArrayAdapter<>(TasksListActivity.this, android.R.layout.simple_list_item_1, tasksName);
-                            taskList.setAdapter(adapter);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        for (int i = 0; i < j.length(); i++) {
+                            JSONObject JOStuff = j.getJSONObject(i);
+                            tasksName.add(JOStuff.getString("name"));
+                            ArrayList<String> taskTmp = new ArrayList<>();
+                            taskTmp.add(JOStuff.getString("id_task"));
+                            taskTmp.add(JOStuff.getString("name"));
+                            taskTmp.add(JOStuff.getString("description"));
+                            taskTmp.add(JOStuff.getString("id_project"));
+                            tasks.add(taskTmp);
                         }
+
+                        ArrayAdapter<String> adapter = new ArrayAdapter<>(TasksListActivity.this, android.R.layout.simple_list_item_1, tasksName);
+                        taskList.setAdapter(adapter);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(TasksListActivity.this, error.toString(), Toast.LENGTH_LONG).show();
-                    }
-                }) {
+                error -> Toast.makeText(TasksListActivity.this, error.toString(), Toast.LENGTH_LONG).show()) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
@@ -124,16 +104,13 @@ public class TasksListActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
 
-        taskList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ArrayList<String> task = tasks.get(tasksName.indexOf(((TextView) view).getText()));
-                Intent intent = new Intent(TasksListActivity.this, TaskActivity.class);
-                intent.putExtra("task", task);
-                intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
-                startActivity(intent);
-                finish();
-            }
+        taskList.setOnItemClickListener((parent, view, position, id) -> {
+            ArrayList<String> task = tasks.get(tasksName.indexOf(((TextView) view).getText()));
+            Intent intent = new Intent(TasksListActivity.this, TaskActivity.class);
+            intent.putExtra("task", task);
+            intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
+            startActivity(intent);
+            finish();
         });
     }
 
@@ -152,6 +129,7 @@ public class TasksListActivity extends AppCompatActivity {
             menu.findItem(R.id.action_addtask).setVisible(false);
             menu.findItem(R.id.action_subdev).setVisible(false);
             menu.findItem(R.id.action_adddev).setVisible(false);
+            menu.findItem(R.id.action_dependencies).setVisible(false);
         }
         return true;
     }
@@ -180,6 +158,14 @@ public class TasksListActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
                 return true;
+            case R.id.action_dependencies:
+                intent = new Intent(TasksListActivity.this, DependenciesActivity.class);
+                intent.putExtra("idProjet",idProjet);
+                intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
+                intent.putExtra("tasks", tasks);
+                startActivity(intent);
+                finish();
+                return true;
             case R.id.action_setting:
                 startActivity(new Intent(TasksListActivity.this, SettingActivity.class));
                 return true;
@@ -193,21 +179,13 @@ public class TasksListActivity extends AppCompatActivity {
 
     public void delete(final int idProjet){
         final StringRequest stringRequest = new StringRequest(Request.Method.POST, DELETE_URL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Toast.makeText(TasksListActivity.this, response, Toast.LENGTH_LONG).show();
-                        Intent intent = new Intent(TasksListActivity.this, ProjectsListActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
+                response -> {
+                    Toast.makeText(TasksListActivity.this, response, Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(TasksListActivity.this, ProjectsListActivity.class);
+                    startActivity(intent);
+                    finish();
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(TasksListActivity.this, error.toString(), Toast.LENGTH_LONG).show();
-                    }
-                }) {
+                error -> Toast.makeText(TasksListActivity.this, error.toString(), Toast.LENGTH_LONG).show()) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();

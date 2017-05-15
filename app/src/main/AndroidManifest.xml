@@ -37,7 +37,9 @@
         <activity
             android:name=".SettingActivity"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".SchedulingActivity"></activity>
+        <activity android:name=".SchedulingActivity" />
+        <activity android:name=".DependenciesActivity" />
+        <activity android:name=".AddDependenceActivity"></activity>
     </application>
 
 </manifest>

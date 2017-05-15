@@ -13,8 +13,6 @@ import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -46,13 +44,10 @@ public class SettingActivity extends AppCompatActivity {
         final EditText inputNewPassword = (EditText) findViewById(R.id.newPassword);
         Button btnChangePassword = (Button) findViewById(R.id.btnChangePassword);
 
-        btnChangePassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String currentPassword = inputCurrentPassword.getText().toString().trim();
-                String newPassword = inputNewPassword.getText().toString().trim();
-                changePassword(currentPassword, newPassword);
-            }
+        btnChangePassword.setOnClickListener(v -> {
+            String currentPassword = inputCurrentPassword.getText().toString().trim();
+            String newPassword = inputNewPassword.getText().toString().trim();
+            changePassword(currentPassword, newPassword);
         });
 
         if(!session.getUserDetails().get(SessionManager.KEY_ROLE).equals("scrummaster")) {
@@ -70,24 +65,16 @@ public class SettingActivity extends AppCompatActivity {
             btnChangeDisponibility.setVisibility(View.VISIBLE);
 
             final StringRequest stringRequest = new StringRequest(Request.Method.POST, SETTING_URL,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            try {
-                                JSONObject j = new JSONObject(response);
-                                seekBar.setProgress(j.getInt("disponibility"));
-                                disponibilityText.setText(j.getInt("disponibility") + " half days");
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
+                    response -> {
+                        try {
+                            JSONObject j = new JSONObject(response);
+                            seekBar.setProgress(j.getInt("disponibility"));
+                            disponibilityText.setText(j.getInt("disponibility") + " half days");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
                         }
                     },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(SettingActivity.this, error.toString(), Toast.LENGTH_LONG).show();
-                        }
-                    }) {
+                    error -> Toast.makeText(SettingActivity.this, error.toString(), Toast.LENGTH_LONG).show()) {
                 @Override
                 protected Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<>();
@@ -116,12 +103,9 @@ public class SettingActivity extends AppCompatActivity {
                 }
             });
 
-            btnChangeDisponibility.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    int disponibility = seekBar.getProgress();
-                    changeDisponibility(disponibility);
-                }
+            btnChangeDisponibility.setOnClickListener(v -> {
+                int disponibility = seekBar.getProgress();
+                changeDisponibility(disponibility);
             });
         }
     }
@@ -134,21 +118,13 @@ public class SettingActivity extends AppCompatActivity {
 
     public void changePassword(final String currentPassword, final String newPassword) {
         final StringRequest stringRequest = new StringRequest(Request.Method.POST, SETTING_URL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Toast.makeText(SettingActivity.this, response, Toast.LENGTH_LONG).show();
-                        Intent intent = getIntent();
-                        finish();
-                        startActivity(intent);
-                    }
+                response -> {
+                    Toast.makeText(SettingActivity.this, response, Toast.LENGTH_LONG).show();
+                    Intent intent = getIntent();
+                    finish();
+                    startActivity(intent);
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(SettingActivity.this, error.toString(), Toast.LENGTH_LONG).show();
-                    }
-                }) {
+                error -> Toast.makeText(SettingActivity.this, error.toString(), Toast.LENGTH_LONG).show()) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
@@ -166,21 +142,13 @@ public class SettingActivity extends AppCompatActivity {
 
     public void changeDisponibility(final int disponibility) {
         final StringRequest stringRequest = new StringRequest(Request.Method.POST, SETTING_URL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Toast.makeText(SettingActivity.this, response, Toast.LENGTH_LONG).show();
-                        Intent intent = getIntent();
-                        finish();
-                        startActivity(intent);
-                    }
+                response -> {
+                    Toast.makeText(SettingActivity.this, response, Toast.LENGTH_LONG).show();
+                    Intent intent = getIntent();
+                    finish();
+                    startActivity(intent);
                 },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(SettingActivity.this, error.toString(), Toast.LENGTH_LONG).show();
-                    }
-                }) {
+                error -> Toast.makeText(SettingActivity.this, error.toString(), Toast.LENGTH_LONG).show()) {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
