@@ -31,7 +31,7 @@ public class AddTaskActivity extends AppCompatActivity {
         session.checkLogin();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Add A Task");
+        toolbar.setTitle("Add A TaskSchedule");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);

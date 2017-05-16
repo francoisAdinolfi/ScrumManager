@@ -36,7 +36,6 @@ public class SchedulingActivity extends AppCompatActivity {
     private ArrayList<Integer> devsId = new ArrayList<>();
     private ArrayList<String> devsName = new ArrayList<>();
     private ArrayList<Integer> disponibilities = new ArrayList<>();
-    private ArrayList<ArrayList<Integer>> schedule = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,8 +152,6 @@ public class SchedulingActivity extends AppCompatActivity {
         Button btnStart = (Button) findViewById(R.id.btnStart);
 
         btnStart.setOnClickListener(v -> {
-            ListView list = (ListView) findViewById(R.id.list);
-
             for (ArrayList<String> al : tasks) {
                 ArrayList<Float> abc = getABC(al);
                 double a = triangularLaw(abc.get(0), abc.get(1), abc.get(2));
@@ -166,21 +163,21 @@ public class SchedulingActivity extends AppCompatActivity {
                 tasksId.add(Integer.valueOf(al.get(0)));
             }
 
-            solver(tasksId, durations, dependencies, devsId, disponibilities);
+            Schedule schedule = solver(tasksId, durations, dependencies, devsId, disponibilities);
 
-            ArrayList<String> scheduleName = new ArrayList<>();
-            for(ArrayList<Integer> al : schedule){
-                String taskName = "";
-                for(ArrayList<String> task : tasks){
-                    if(String.valueOf(al.get(0)).equals(task.get(0))){
-                        taskName = task.get(1);
-                    }
+            if(schedule != null) {
+                ListView list = (ListView) findViewById(R.id.list);
+                ArrayList<TaskSchedule> tasks = schedule.getTasks();
+                ArrayList<String> tasksName = new ArrayList<>();
+                for (TaskSchedule task : tasks) {
+                    tasksName.add(task.toString());
                 }
-                scheduleName.add(taskName + "     Start : " + al.get(1) + "     End : " + al.get(2) + "     Dev : " + devsName.get(devsId.indexOf(al.get(3))));
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(SchedulingActivity.this, android.R.layout.simple_list_item_1, tasksName);
+                list.setAdapter(adapter);
             }
-
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(SchedulingActivity.this, android.R.layout.simple_list_item_1, scheduleName);
-            list.setAdapter(adapter);
+            else {
+                Toast.makeText(SchedulingActivity.this, "No Solution", Toast.LENGTH_LONG).show();
+            }
         });
     }
 
@@ -219,8 +216,10 @@ public class SchedulingActivity extends AppCompatActivity {
         }
     }
 
-    public void solver(ArrayList<Integer> tasks, ArrayList<Integer> durations, ArrayList<ArrayList<Integer>> dependencies, ArrayList<Integer> devs, ArrayList<Integer> dispos){
-        int num_task = tasks.size();
+    public Schedule solver(ArrayList<Integer> tasksId, ArrayList<Integer> durations, ArrayList<ArrayList<Integer>> dependencies, ArrayList<Integer> devs, ArrayList<Integer> dispos){
+        Schedule schedule = null;
+
+        int num_task = tasksId.size();
         int num_dev = devs.size();
 
         Model model = new Model("Choco Solver");
@@ -240,9 +239,10 @@ public class SchedulingActivity extends AppCompatActivity {
 
         // Gestion des dépendances
         for(ArrayList<Integer> d : dependencies){
-            model.arithm(_tasks[tasks.indexOf(d.get(0))].getEnd(), "<=", _tasks[tasks.indexOf(d.get(1))].getStart()).post();
+            model.arithm(_tasks[tasksId.indexOf(d.get(0))].getEnd(), "<=", _tasks[tasksId.indexOf(d.get(1))].getStart()).post();
         }
 
+        // Matrice d'assignation des taches
         IntVar[][] assign = new IntVar[num_dev][num_task];
         for(int i = 0; i < num_dev; i++){
             assign[i] = model.intVarArray(num_task, 0, 1);
@@ -253,18 +253,11 @@ public class SchedulingActivity extends AppCompatActivity {
             model.sum(ArrayUtils.getColumn(assign, i), "=", 1).post();
         }
 
-        IntVar[][] d = new IntVar[num_dev][num_task];
-        for(int i = 0; i < num_dev; i++){
-            for(int j = 0; j < num_task; j++){
-                d[i][j] = model.intVar(durations.get(j));
-            }
-        }
-
         IntVar[][] dfa = new IntVar[num_dev][num_task];
         for(int i = 0; i < num_dev; i++){
             dfa[i] = model.intVarArray(num_task, 0, IntVar.MAX_INT_BOUND);
             for(int j = 0; j < num_task; j++){
-                model.arithm(d[i][j], "*", assign[i][j], "=", dfa[i][j]).post();
+                model.times(_durations[j], assign[i][j], dfa[i][j]).post();
             }
         }
 
@@ -273,27 +266,11 @@ public class SchedulingActivity extends AppCompatActivity {
             model.sum(dfa[i], "<=", dispos.get(i)).post();
         }
 
-        IntVar[][] s = new IntVar[num_dev][num_task];
-        for(int i = 0; i < num_dev; i++){
-            s[i] = model.intVarArray(num_task, 0, IntVar.MAX_INT_BOUND);
-            for(int j = 0; j < num_task; j++){
-                model.arithm(s[i][j], "=", _tasks[j].getStart()).post();
-            }
-        }
-
         IntVar[][] sfa = new IntVar[num_dev][num_task];
         for(int i = 0; i < num_dev; i++){
             sfa[i] = model.intVarArray(num_task, 0, IntVar.MAX_INT_BOUND);
             for(int j = 0; j < num_task; j++){
-                model.arithm(s[i][j], "*", assign[i][j], "=", sfa[i][j]).post();
-            }
-        }
-
-        IntVar[][] e = new IntVar[num_dev][num_task];
-        for(int i = 0; i < num_dev; i++){
-            e[i] = model.intVarArray(num_task, 0, IntVar.MAX_INT_BOUND);
-            for(int j = 0; j < num_task; j++){
-                model.arithm(e[i][j], "=", _tasks[j].getEnd()).post();
+                model.times(_tasks[j].getStart(), assign[i][j], sfa[i][j]).post();
             }
         }
 
@@ -301,7 +278,7 @@ public class SchedulingActivity extends AppCompatActivity {
         for(int i = 0; i < num_dev; i++){
             efa[i] = model.intVarArray(num_task, 0, IntVar.MAX_INT_BOUND);
             for(int j = 0; j < num_task; j++){
-                model.arithm(e[i][j], "*", assign[i][j], "=", efa[i][j]).post();
+                model.times(_tasks[j].getEnd(), assign[i][j], efa[i][j]).post();
             }
         }
 
@@ -320,30 +297,21 @@ public class SchedulingActivity extends AppCompatActivity {
         model.max(MaxEndTime, ends).post();
         model.setObjective(Model.MINIMIZE, MaxEndTime);
 
-        if(model.getSolver().solve()){
-            for(int i = 0; i < num_task; i++){
+        while(model.getSolver().solve()) {
+            schedule = new Schedule(MaxEndTime.getValue());
+
+            for (int i = 0; i < num_task; i++) {
                 int dev_id = 0;
-                for(int j = 0; j < num_dev; j++){
-                    if(assign[j][i].getValue() == 1){
-                        dev_id = devs.get(j);
+                for (int j = 0; j < num_dev; j++) {
+                    if (assign[j][i].getValue() == 1) {
+                        dev_id = j;
                     }
                 }
-                ArrayList<Integer> tmp = new ArrayList<>();
-                tmp.add(tasks.get(i));
-                tmp.add(_tasks[i].getStart().getValue());
-                tmp.add(_tasks[i].getEnd().getValue());
-                tmp.add(dev_id);
-                schedule.add(tmp);
+                TaskSchedule task = new TaskSchedule(tasks.get(i).get(1), _tasks[i].getStart().getValue(), _tasks[i].getEnd().getValue(), devsName.get(dev_id));
+                schedule.addTask(task);
             }
-            System.out.println();
-            for(int i = 0; i < num_dev; i++){
-                for(int j = 0; j < num_task; j++){
-                    System.out.print(assign[i][j].getValue());
-                }
-                System.out.println();
-            }
-        } else {
-            Toast.makeText(SchedulingActivity.this, "No solution", Toast.LENGTH_LONG).show();
         }
+
+        return schedule;
     }
 }
