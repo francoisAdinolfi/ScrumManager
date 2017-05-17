@@ -19,7 +19,6 @@ import java.util.Map;
 public class AddProjectActivity extends AppCompatActivity {
     private static final String PROJECT_URL = "http://scrummaster.pe.hu/project.php";
     private EditText inputName;
-    private EditText inputDescription;
     private SessionManager session;
 
     @Override
@@ -38,16 +37,14 @@ public class AddProjectActivity extends AppCompatActivity {
 
         Button btnAdd = (Button) findViewById(R.id.btnAdd);
         inputName = (EditText) findViewById(R.id.name);
-        inputDescription = (EditText) findViewById(R.id.description);
 
         btnAdd.setOnClickListener(v -> {
             String name = inputName.getText().toString().trim();
-            String description = inputDescription.getText().toString().trim();
 
-            if (name.isEmpty() || description.isEmpty()) {
-                Toast.makeText(getApplicationContext(), "Inputs must be filled", Toast.LENGTH_LONG).show();
+            if (name.isEmpty()) {
+                Toast.makeText(getApplicationContext(), "Input must be filled", Toast.LENGTH_LONG).show();
             } else {
-                add(name, description);
+                add(name);
             }
         });
     }
@@ -60,7 +57,7 @@ public class AddProjectActivity extends AppCompatActivity {
         return true;
     }
 
-    public void add(final String name, final String description) {
+    public void add(final String name) {
         final StringRequest stringRequest = new StringRequest(Request.Method.POST, PROJECT_URL,
                 response -> {
                     Toast.makeText(AddProjectActivity.this, response, Toast.LENGTH_LONG).show();
@@ -75,7 +72,6 @@ public class AddProjectActivity extends AppCompatActivity {
                 params.put("tag", "addproject");
                 params.put("id_user", session.getUserDetails().get(SessionManager.KEY_ID));
                 params.put("name", name);
-                params.put("description", description);
                 return params;
             }
         };
