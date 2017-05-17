@@ -13,7 +13,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="AllowBackup,GoogleAppIndexingWarning">
-
         <activity
             android:name=".LoginActivity"
             android:windowSoftInputMode="stateHidden">
@@ -30,7 +29,7 @@
         <activity
             android:name=".AddProjectActivity"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".TasksListActivity" />
+        <activity android:name=".SprintTaskListActivity" />
         <activity android:name=".AddTaskActivity" />
         <activity android:name=".TaskActivity" />
         <activity android:name=".SubDevActivity" />
@@ -43,6 +42,9 @@
         <activity android:name=".SchedulingActivity" />
         <activity android:name=".DependenciesActivity" />
         <activity android:name=".AddDependenceActivity" />
+        <activity android:name=".ProjectMenuActivity" />
+        <activity android:name=".ProductBacklogActivity" />
+        <activity android:name=".SprintListActivity"></activity>
     </application>
 
 </manifest>

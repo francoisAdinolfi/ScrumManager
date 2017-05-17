@@ -107,7 +107,7 @@ public class DependenciesActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        Intent intent = new Intent(DependenciesActivity.this, TasksListActivity.class);
+        Intent intent = new Intent(DependenciesActivity.this, SprintTaskListActivity.class);
         intent.putExtra("idProjet",idProjet);
         intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
         startActivity(intent);

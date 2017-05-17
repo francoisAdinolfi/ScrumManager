@@ -63,7 +63,7 @@ public class AddDevActivity extends AppCompatActivity {
 
         devList.setOnItemClickListener((parent, view, position, id) -> {
             add(developerId.get(developerName.indexOf(((TextView) view).getText())));
-            Intent intent = new Intent(AddDevActivity.this, TasksListActivity.class);
+            Intent intent = new Intent(AddDevActivity.this, ProjectMenuActivity.class);
             intent.putExtra("idProjet", idProjet);
             intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
             startActivity(intent);
@@ -72,7 +72,7 @@ public class AddDevActivity extends AppCompatActivity {
     }
 
     public boolean onSupportNavigateUp() {
-        Intent intent = new Intent(AddDevActivity.this, TasksListActivity.class);
+        Intent intent = new Intent(AddDevActivity.this, ProjectMenuActivity.class);
         intent.putExtra("idProjet", idProjet);
         intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
         startActivity(intent);

@@ -80,7 +80,7 @@ public class ProjectsListActivity extends AppCompatActivity {
 
         listProjects.setOnItemClickListener((parent, view, position, id) -> {
             int idprojet = idProjects.get(projects.indexOf(((TextView) view).getText()));
-            Intent intent = new Intent(ProjectsListActivity.this, TasksListActivity.class);
+            Intent intent = new Intent(ProjectsListActivity.this, ProjectMenuActivity.class);
             intent.putExtra("idProjet", idprojet);
             intent.putExtra("nameProjet", ((TextView) view).getText());
             startActivity(intent);

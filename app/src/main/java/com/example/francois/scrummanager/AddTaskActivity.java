@@ -31,7 +31,7 @@ public class AddTaskActivity extends AppCompatActivity {
         session.checkLogin();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Add A TaskSchedule");
+        toolbar.setTitle("Add A Task");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -55,7 +55,7 @@ public class AddTaskActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        Intent intent = new Intent(AddTaskActivity.this, TasksListActivity.class);
+        Intent intent = new Intent(AddTaskActivity.this, ProductBacklogActivity.class);
         intent.putExtra("idProjet",idProjet);
         intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
         startActivity(intent);
@@ -67,7 +67,7 @@ public class AddTaskActivity extends AppCompatActivity {
         final StringRequest stringRequest = new StringRequest(Request.Method.POST, PROJECT_URL,
                 response -> {
                     Toast.makeText(AddTaskActivity.this, response, Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(AddTaskActivity.this, TasksListActivity.class);
+                    Intent intent = new Intent(AddTaskActivity.this, ProductBacklogActivity.class);
                     intent.putExtra("idProjet",idProjet);
                     intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
                     startActivity(intent);

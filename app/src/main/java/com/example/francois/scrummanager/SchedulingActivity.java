@@ -73,7 +73,7 @@ public class SchedulingActivity extends AppCompatActivity {
     }
 
     public boolean onSupportNavigateUp() {
-        Intent intent = new Intent(SchedulingActivity.this, TasksListActivity.class);
+        Intent intent = new Intent(SchedulingActivity.this, SprintTaskListActivity.class);
         intent.putExtra("idProjet", idProjet);
         intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
         startActivity(intent);
