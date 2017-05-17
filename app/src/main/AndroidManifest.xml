@@ -44,7 +44,8 @@
         <activity android:name=".AddDependenceActivity" />
         <activity android:name=".ProjectMenuActivity" />
         <activity android:name=".ProductBacklogActivity" />
-        <activity android:name=".SprintListActivity"></activity>
+        <activity android:name=".SprintListActivity" />
+        <activity android:name=".AddSprintActivity"></activity>
     </application>
 
 </manifest>
