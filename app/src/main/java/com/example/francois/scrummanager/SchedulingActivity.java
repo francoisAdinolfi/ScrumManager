@@ -35,7 +35,7 @@ public class SchedulingActivity extends AppCompatActivity {
     private ArrayList<ArrayList<Integer>> dependencies = new ArrayList<>();
     private ArrayList<Integer> devsId = new ArrayList<>();
     private ArrayList<String> devsName = new ArrayList<>();
-    private ArrayList<Integer> disponibilities = new ArrayList<>();
+    private ArrayList<ArrayList<Integer>> unavailabilities = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -131,7 +131,6 @@ public class SchedulingActivity extends AppCompatActivity {
                             JSONObject JOStuff = j.getJSONObject(i);
                             devsId.add(Integer.valueOf(JOStuff.getString("id_user")));
                             devsName.add(JOStuff.getString("name"));
-                            disponibilities.add(Integer.valueOf(JOStuff.getString("disponibility")));
                         }
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -142,6 +141,45 @@ public class SchedulingActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("tag", "getdevelopers");
+                params.put("id_project", Integer.toString(idProjet));
+                return params;
+            }
+        };
+        requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
+
+        stringRequest = new StringRequest(Request.Method.POST, SCHEDULING_URL,
+                response -> {
+                    try {
+                        JSONArray j = new JSONArray(response);
+                        for (int i = 0; i < j.length(); i++) {
+                            JSONObject JOStuff = j.getJSONObject(i);
+                            ArrayList<Integer> tmp = new ArrayList<>();
+                            int flag = 0;
+                            for (ArrayList<Integer> al : unavailabilities) {
+                                if (JOStuff.getInt("id_user") == al.get(0)) {
+                                    flag = 1;
+                                    tmp = al;
+                                    break;
+                                }
+                            }
+                            if (flag == 0) {
+                                tmp.add(JOStuff.getInt("id_user"));
+                                tmp.add(JOStuff.getInt("day"));
+                                unavailabilities.add(tmp);
+                            } else {
+                                tmp.add(JOStuff.getInt("day"));
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> Toast.makeText(SchedulingActivity.this, error.toString(), Toast.LENGTH_LONG).show()) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("tag", "getunavailabilities");
                 params.put("id_project", Integer.toString(idProjet));
                 return params;
             }
@@ -163,12 +201,26 @@ public class SchedulingActivity extends AppCompatActivity {
                 tasksId.add(Integer.valueOf(al.get(0)));
             }
 
-            Schedule schedule = solver(tasksId, durations, dependencies, devsId, disponibilities);
+            ArrayList<ArrayList<Integer>> unavailabilitiesDay = new ArrayList<>();
+            for (Integer i : devsId) {
+                ArrayList<Integer> tmp = new ArrayList<>();
+                for(ArrayList<Integer> al : unavailabilities){
+                    if(i.equals(al.get(0))){
+                        for(int j = 1; j < al.size(); j++){
+                            tmp.add(al.get(j));
+                        }
+                    }
+                }
+                unavailabilitiesDay.add(tmp);
+            }
+
+            Schedule schedule = solver(tasksId, durations, dependencies, devsId, unavailabilitiesDay);
 
             if(schedule != null) {
                 ListView list = (ListView) findViewById(R.id.list);
                 ArrayList<TaskSchedule> tasks = schedule.getTasks();
                 ArrayList<String> tasksName = new ArrayList<>();
+                tasksName.add("Duration : " + schedule.getDuration());
                 for (TaskSchedule task : tasks) {
                     tasksName.add(task.toString());
                 }
@@ -216,7 +268,7 @@ public class SchedulingActivity extends AppCompatActivity {
         }
     }
 
-    public Schedule solver(ArrayList<Integer> tasksId, ArrayList<Integer> durations, ArrayList<ArrayList<Integer>> dependencies, ArrayList<Integer> devs, ArrayList<Integer> dispos){
+    public Schedule solver(ArrayList<Integer> tasksId, ArrayList<Integer> durations, ArrayList<ArrayList<Integer>> dependencies, ArrayList<Integer> devs, ArrayList<ArrayList<Integer>> unavailabilities){
         Schedule schedule = null;
 
         int num_task = tasksId.size();
@@ -237,9 +289,9 @@ public class SchedulingActivity extends AppCompatActivity {
             _tasks[i] = model.taskVar(starts[i], _durations[i], ends[i]);
         }
 
-        // Gestion des dépendances
+        // Gestion des dépendances (fin[t1] < debut[t2])
         for(ArrayList<Integer> d : dependencies){
-            model.arithm(_tasks[tasksId.indexOf(d.get(0))].getEnd(), "<=", _tasks[tasksId.indexOf(d.get(1))].getStart()).post();
+            _tasks[tasksId.indexOf(d.get(0))].getEnd().le(_tasks[tasksId.indexOf(d.get(1))].getStart()).post();
         }
 
         // Matrice d'assignation des taches
@@ -253,32 +305,55 @@ public class SchedulingActivity extends AppCompatActivity {
             model.sum(ArrayUtils.getColumn(assign, i), "=", 1).post();
         }
 
-        IntVar[][] dfa = new IntVar[num_dev][num_task];
+        // start * assign
+        IntVar[][] sfa = new IntVar[num_dev][num_task];
         for(int i = 0; i < num_dev; i++){
-            dfa[i] = model.intVarArray(num_task, 0, IntVar.MAX_INT_BOUND);
+            sfa[i] = model.intVarArray(num_task, 0, IntVar.MAX_INT_BOUND);
             for(int j = 0; j < num_task; j++){
-                model.times(_durations[j], assign[i][j], dfa[i][j]).post();
+                sfa[i][j].eq(_tasks[j].getStart().mul(assign[i][j])).post();
+            }
+        }
+
+        // end * assign
+        IntVar[][] efa = new IntVar[num_dev][num_task];
+        for(int i = 0; i < num_dev; i++){
+            efa[i] = model.intVarArray(num_task, 0, IntVar.MAX_INT_BOUND);
+            for(int j = 0; j < num_task; j++){
+                efa[i][j].eq(_tasks[j].getEnd().mul(assign[i][j])).post();
+            }
+        }
+
+        // start * assign % 14
+        IntVar[][] ms = new IntVar[num_dev][num_task];
+        for(int i = 0; i < num_dev; i++){
+            ms[i] = model.intVarArray(num_task, 0, IntVar.MAX_INT_BOUND);
+            for(int j = 0; j < num_task; j++){
+                ms[i][j].eq(sfa[i][j].mod(model.intVar(14))).post();
+            }
+        }
+
+        // end * assign % 14
+        IntVar[][] me = new IntVar[num_dev][num_task];
+        for(int i = 0; i < num_dev; i++){
+            me[i] = model.intVarArray(num_task, 0, IntVar.MAX_INT_BOUND);
+            for(int j = 0; j < num_task; j++){
+                me[i][j].eq(efa[i][j].mod(model.intVar(14))).post();
             }
         }
 
         // Gestion des dispos
         for(int i = 0; i < num_dev; i++){
-            model.sum(dfa[i], "<=", dispos.get(i)).post();
-        }
-
-        IntVar[][] sfa = new IntVar[num_dev][num_task];
-        for(int i = 0; i < num_dev; i++){
-            sfa[i] = model.intVarArray(num_task, 0, IntVar.MAX_INT_BOUND);
             for(int j = 0; j < num_task; j++){
-                model.times(_tasks[j].getStart(), assign[i][j], sfa[i][j]).post();
-            }
-        }
-
-        IntVar[][] efa = new IntVar[num_dev][num_task];
-        for(int i = 0; i < num_dev; i++){
-            efa[i] = model.intVarArray(num_task, 0, IntVar.MAX_INT_BOUND);
-            for(int j = 0; j < num_task; j++){
-                model.times(_tasks[j].getEnd(), assign[i][j], efa[i][j]).post();
+                for(int k = 0; k < unavailabilities.get(i).size(); k++){
+                    // start[j] * assign[i][j] % 14 < indispos.get(i).get(k)
+                    ms[i][j].lt(unavailabilities.get(i).get(k)).and(
+                            // AND  end[j] * assign[i][j] % 14 <= indispos.get(i).get(k)
+                            me[i][j].le(unavailabilities.get(i).get(k))).or(
+                            // OR start[j] * assign[i][j] % 14 > indispos.get(i).get(k)
+                            ms[i][j].gt(unavailabilities.get(i).get(k)).and(
+                                    // AND end[j] * assign[i][j] % 14 >= indispos.get(i).get(k)
+                                    me[i][j].ge(unavailabilities.get(i).get(k)))).post();
+                }
             }
         }
 
@@ -287,7 +362,7 @@ public class SchedulingActivity extends AppCompatActivity {
             for(int j = 0; j < num_task; j++){
                 for(int k = 0; k < num_task; k++){
                     if(k != j){
-                        model.or(model.arithm(sfa[i][j], ">=", efa[i][k]), model.arithm(efa[i][j], "<=", sfa[i][k])).post();
+                        sfa[i][j].ge(efa[i][k]).or(efa[i][j].le(sfa[i][k])).post();
                     }
                 }
             }
@@ -311,7 +386,6 @@ public class SchedulingActivity extends AppCompatActivity {
                 schedule.addTask(task);
             }
         }
-
         return schedule;
     }
 }

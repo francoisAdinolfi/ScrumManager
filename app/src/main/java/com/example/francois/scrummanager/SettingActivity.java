@@ -6,9 +6,9 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.SeekBar;
-import android.widget.TextView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -16,9 +16,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -51,25 +53,19 @@ public class SettingActivity extends AppCompatActivity {
         });
 
         if(!session.getUserDetails().get(SessionManager.KEY_ROLE).equals("scrummaster")) {
-            TextView disponibilityTitle = (TextView) findViewById(R.id.disponibilitiyTitle);
-            disponibilityTitle.setVisibility(View.VISIBLE);
-
-            final SeekBar seekBar = (SeekBar) findViewById(R.id.seekBar);
-            seekBar.setVisibility(View.VISIBLE);
-            seekBar.setMax(14);
-
-            final TextView disponibilityText = (TextView) findViewById(R.id.disponibilitiyText);
-            disponibilityText.setVisibility(View.VISIBLE);
-
-            Button btnChangeDisponibility = (Button) findViewById(R.id.btnChangeDisponibility);
-            btnChangeDisponibility.setVisibility(View.VISIBLE);
+            LinearLayout layout = (LinearLayout) findViewById(R.id.unavailabilitiesLayout);
+            layout.setVisibility(View.VISIBLE);
 
             final StringRequest stringRequest = new StringRequest(Request.Method.POST, SETTING_URL,
                     response -> {
                         try {
-                            JSONObject j = new JSONObject(response);
-                            seekBar.setProgress(j.getInt("disponibility"));
-                            disponibilityText.setText(j.getInt("disponibility") + " half days");
+                            JSONArray j = new JSONArray(response);
+                            for (int i = 0; i < j.length(); i++) {
+                                JSONObject JOStuff = j.getJSONObject(i);
+                                int resID = getResources().getIdentifier("check" + JOStuff.getInt("day"), "id", getPackageName());
+                                CheckBox box = (CheckBox) findViewById(resID);
+                                box.setChecked(true);
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -78,7 +74,7 @@ public class SettingActivity extends AppCompatActivity {
                 @Override
                 protected Map<String, String> getParams() {
                     Map<String, String> params = new HashMap<>();
-                    params.put("tag", "getdisponibility");
+                    params.put("tag", "getunavailabilities");
                     params.put("id_user", session.getUserDetails().get(SessionManager.KEY_ID));
                     return params;
                 }
@@ -86,26 +82,19 @@ public class SettingActivity extends AppCompatActivity {
             RequestQueue requestQueue = Volley.newRequestQueue(this);
             requestQueue.add(stringRequest);
 
-            seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                int progress = 0;
+            Button btn = (Button) findViewById(R.id.btnChangeUnavailabilities);
 
-                public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
-                    progress = progresValue;
+            btn.setOnClickListener(v -> {
+                ArrayList<Integer> checked = new ArrayList<>();
+                for(int i = 0; i < 14; i++){
+                    int resID = getResources().getIdentifier("check" + i, "id", getPackageName());
+                    CheckBox box = (CheckBox) findViewById(resID);
+
+                    if(box.isChecked()){
+                        checked.add(i);
+                    }
                 }
-
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {
-                }
-
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {
-                    disponibilityText.setText(seekBar.getProgress() + " half days");
-                }
-            });
-
-            btnChangeDisponibility.setOnClickListener(v -> {
-                int disponibility = seekBar.getProgress();
-                changeDisponibility(disponibility);
+                changeUnavailabilities(checked);
             });
         }
     }
@@ -139,8 +128,7 @@ public class SettingActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
     }
 
-
-    public void changeDisponibility(final int disponibility) {
+    public void changeUnavailabilities(final ArrayList<Integer> checked) {
         final StringRequest stringRequest = new StringRequest(Request.Method.POST, SETTING_URL,
                 response -> {
                     Toast.makeText(SettingActivity.this, response, Toast.LENGTH_LONG).show();
@@ -152,9 +140,14 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("tag", "setdisponibility");
+                params.put("tag", "setunavailabilities");
                 params.put("id_user", session.getUserDetails().get(SessionManager.KEY_ID));
-                params.put("disponibility", String.valueOf(disponibility));
+                params.put("c_size", String.valueOf(checked.size()));
+                int i = 0;
+                for(Integer c : checked){
+                    params.put("c" + i, String.valueOf(c));
+                    i++;
+                }
                 return params;
             }
         };

@@ -2,28 +2,24 @@ package com.example.francois.scrummanager;
 
 import java.util.ArrayList;
 
-public class Schedule {
+class Schedule {
     private ArrayList<TaskSchedule> tasks;
     private int duration;
 
-    public Schedule(int duration){
+    Schedule(int duration){
         tasks = new ArrayList<>();
         this.duration = duration;
     }
 
-    public int getDuration(){
+    int getDuration(){
         return duration;
     }
 
-    public void setDuration(int duration){
-        this.duration = duration;
-    }
-
-    public void addTask(TaskSchedule task){
+    void addTask(TaskSchedule task){
         tasks.add(task);
     }
 
-    public ArrayList<TaskSchedule> getTasks(){
+    ArrayList<TaskSchedule> getTasks(){
         return tasks;
     }
 }
