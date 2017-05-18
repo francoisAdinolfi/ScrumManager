@@ -80,15 +80,16 @@ public class SprintListActivity extends AppCompatActivity {
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         requestQueue.add(stringRequest);
 
-        /*listSprint.setOnItemClickListener((parent, view, position, id) -> {
+        listSprint.setOnItemClickListener((parent, view, position, id) -> {
             int idsprint = idSprints.get(sprints.indexOf(((TextView) view).getText()));
             Intent intent = new Intent(SprintListActivity.this, SprintTaskListActivity.class);
             intent.putExtra("idProjet", idProjet);
             intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
-            intent.putExtra("idSprint", idsprint);
+            intent.putExtra("idSprint", Integer.toString(idsprint));
+            intent.putExtra("nameSprint", ((TextView) view).getText());
             startActivity(intent);
             finish();
-        });*/
+        });
     }
 
     public boolean onSupportNavigateUp() {

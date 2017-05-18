@@ -58,7 +58,7 @@ public class SprintTaskListActivity extends AppCompatActivity {
         session.checkLogin();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(getIntent().getStringExtra("nameProjet"));
+        toolbar.setTitle(getIntent().getStringExtra("nameSprint"));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -93,7 +93,7 @@ public class SprintTaskListActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("tag", "gettasks");
-                params.put("id_project", Integer.toString(idProjet));
+                params.put("id_sprint", getIntent().getStringExtra("idSprint"));
                 return params;
             }
         };
@@ -106,7 +106,6 @@ public class SprintTaskListActivity extends AppCompatActivity {
             intent.putExtra("task", task);
             intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
             startActivity(intent);
-            finish();
         });
 
         // Scheduling
@@ -325,7 +324,9 @@ public class SprintTaskListActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        Intent intent = new Intent(SprintTaskListActivity.this, ProjectsListActivity.class);
+        Intent intent = new Intent(SprintTaskListActivity.this, SprintListActivity.class);
+        intent.putExtra("idProjet", idProjet);
+        intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
         startActivity(intent);
         finish();
         return true;
@@ -333,10 +334,9 @@ public class SprintTaskListActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menuproject, menu);
+        getMenuInflater().inflate(R.menu.menu, menu);
         if(!session.getUserDetails().get(SessionManager.KEY_ROLE).equals("scrummaster")){
-            menu.findItem(R.id.action_subdev).setVisible(false);
-            menu.findItem(R.id.action_adddev).setVisible(false);
+            menu.findItem(R.id.action_add).setVisible(false);
         }
         return true;
     }
@@ -344,17 +344,11 @@ public class SprintTaskListActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
-            case R.id.action_adddev:
-                Intent intent = new Intent(SprintTaskListActivity.this, AddDevActivity.class);
-                intent.putExtra("idProjet",idProjet);
+            case R.id.action_add:
+                Intent intent = new Intent(SprintTaskListActivity.this, AddTaskSprintActivity.class);
+                intent.putExtra("idProjet", idProjet);
                 intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
-                startActivity(intent);
-                finish();
-                return true;
-            case R.id.action_subdev:
-                intent = new Intent(SprintTaskListActivity.this, SubDevActivity.class);
-                intent.putExtra("idProjet",idProjet);
-                intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
+                intent.putExtra("idSprint", getIntent().getStringExtra("idSprint"));
                 startActivity(intent);
                 finish();
                 return true;
@@ -365,7 +359,6 @@ public class SprintTaskListActivity extends AppCompatActivity {
                 session.logoutUser();
                 return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
