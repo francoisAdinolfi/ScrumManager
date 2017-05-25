@@ -39,7 +39,6 @@ public class SprintListActivity extends AppCompatActivity {
 
         session = new SessionManager(getApplicationContext());
         session.checkLogin();
-        final HashMap<String, String> user = session.getUserDetails();
 
         idProjet = getIntent().getIntExtra("idProjet", 0);
 

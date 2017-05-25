@@ -47,7 +47,8 @@
         <activity android:name=".SprintListActivity" />
         <activity android:name=".AddSprintActivity" />
         <activity android:name=".AddTaskSprintActivity" />
-        <activity android:name=".SubTaskSprintActivity"></activity>
+        <activity android:name=".SubTaskSprintActivity" />
+        <activity android:name=".PlanningActivity" />
     </application>
 
 </manifest>

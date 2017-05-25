@@ -1,6 +1,7 @@
 package com.example.francois.scrummanager;
 
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -95,8 +96,14 @@ public class TaskActivity extends AppCompatActivity {
             RequestQueue requestQueue = Volley.newRequestQueue(this);
             requestQueue.add(stringRequest);
 
-            btnDelete.setOnClickListener(v -> delete(task));
-
+            btnDelete.setOnClickListener(v -> new AlertDialog.Builder(TaskActivity.this)
+                .setTitle("Delete")
+                .setMessage("Are you sure you want to delete this task ?")
+                .setPositiveButton(android.R.string.yes, (dialog, which) -> delete(task))
+                .setNegativeButton(android.R.string.no, (dialog, which) -> { })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show()
+            );
         } else {
             TextVote.setText("Vote : ");
             final StringRequest stringRequest = new StringRequest(Request.Method.POST, VOTE_URL,
