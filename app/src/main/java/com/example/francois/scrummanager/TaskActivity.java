@@ -31,6 +31,7 @@ import java.util.Map;
 public class TaskActivity extends AppCompatActivity {
     private static final String VOTE_URL = "http://scrummaster.pe.hu/vote.php";
     private static final String DELETE_URL = "http://scrummaster.pe.hu/delete.php";
+    private static final String DONE_URL = "http://scrummaster.pe.hu/done.php";
     private SessionManager session;
     private ArrayList<String> votes = new ArrayList<>();
     private TextView estimationText;
@@ -174,12 +175,33 @@ public class TaskActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         menu.findItem(R.id.action_add).setVisible(false);
+        if(session.getUserDetails().get(SessionManager.KEY_ROLE).equals("scrummaster")){
+            menu.findItem(R.id.action_done).setVisible(true);
+        }
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
+            case R.id.action_done:
+                final StringRequest stringRequest = new StringRequest(Request.Method.POST, DONE_URL,
+                        response -> {
+                            Toast.makeText(TaskActivity.this, response, Toast.LENGTH_LONG).show();
+                        },
+                        error -> Toast.makeText(TaskActivity.this, error.toString(), Toast.LENGTH_LONG).show()) {
+                    @Override
+                    protected Map<String, String> getParams() {
+                        Map<String, String> params = new HashMap<>();
+                        params.put("tag", "done");
+                        params.put("id_task", task.get(0));
+                        params.put("done", task.get(4));
+                        return params;
+                    }
+                };
+                RequestQueue requestQueue = Volley.newRequestQueue(this);
+                requestQueue.add(stringRequest);
+                return true;
             case R.id.action_setting:
                 startActivity(new Intent(TaskActivity.this, SettingActivity.class));
                 return true;

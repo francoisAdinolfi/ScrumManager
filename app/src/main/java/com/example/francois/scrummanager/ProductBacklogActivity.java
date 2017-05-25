@@ -62,6 +62,7 @@ public class ProductBacklogActivity extends AppCompatActivity {
                             taskTmp.add(JOStuff.getString("name"));
                             taskTmp.add(JOStuff.getString("description"));
                             taskTmp.add(JOStuff.getString("id_project"));
+                            taskTmp.add(JOStuff.getString("done"));
                             tasks.add(taskTmp);
                         }
 
