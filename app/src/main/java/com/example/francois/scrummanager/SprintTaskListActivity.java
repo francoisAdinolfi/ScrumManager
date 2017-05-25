@@ -338,6 +338,7 @@ public class SprintTaskListActivity extends AppCompatActivity {
         if(!session.getUserDetails().get(SessionManager.KEY_ROLE).equals("scrummaster")){
             menu.findItem(R.id.action_add).setVisible(false);
         }
+        menu.findItem(R.id.action_sub).setVisible(true);
         return true;
     }
 
@@ -346,6 +347,15 @@ public class SprintTaskListActivity extends AppCompatActivity {
         switch (item.getItemId()){
             case R.id.action_add:
                 Intent intent = new Intent(SprintTaskListActivity.this, AddTaskSprintActivity.class);
+                intent.putExtra("idProjet", idProjet);
+                intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
+                intent.putExtra("idSprint", getIntent().getStringExtra("idSprint"));
+                intent.putExtra("nameSprint", getIntent().getStringExtra("nameSprint"));
+                startActivity(intent);
+                finish();
+                return true;
+            case R.id.action_sub:
+                intent = new Intent(SprintTaskListActivity.this, SubTaskSprintActivity.class);
                 intent.putExtra("idProjet", idProjet);
                 intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
                 intent.putExtra("idSprint", getIntent().getStringExtra("idSprint"));

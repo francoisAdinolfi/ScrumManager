@@ -81,7 +81,6 @@ public class AddTaskSprintActivity extends AppCompatActivity {
         requestQueue.add(stringRequest);
 
         taskList.setOnItemClickListener((parent, view, position, id) -> {
-            Toast.makeText(AddTaskSprintActivity.this, taskId.get(tasksName.indexOf(((TextView) view).getText())), Toast.LENGTH_LONG).show();
             add(getIntent().getStringExtra("idSprint"), taskId.get(tasksName.indexOf(((TextView) view).getText())));
             Intent intent = new Intent(AddTaskSprintActivity.this, SprintTaskListActivity.class);
             intent.putExtra("idProjet", idProjet);
@@ -101,6 +100,14 @@ public class AddTaskSprintActivity extends AppCompatActivity {
         intent.putExtra("nameSprint", getIntent().getStringExtra("nameSprint"));
         startActivity(intent);
         finish();
+        return true;
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        if(session.getUserDetails().get(SessionManager.KEY_ROLE).equals("scrummaster")){
+            menu.findItem(R.id.action_add).setVisible(false);
+        }
         return true;
     }
 

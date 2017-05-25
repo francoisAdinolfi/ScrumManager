@@ -46,7 +46,8 @@
         <activity android:name=".ProductBacklogActivity" />
         <activity android:name=".SprintListActivity" />
         <activity android:name=".AddSprintActivity" />
-        <activity android:name=".AddTaskSprintActivity"></activity>
+        <activity android:name=".AddTaskSprintActivity" />
+        <activity android:name=".SubTaskSprintActivity"></activity>
     </application>
 
 </manifest>
