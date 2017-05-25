@@ -2,13 +2,14 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
-        android:orientation="vertical">
+        android:orientation="vertical" >
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -17,31 +18,9 @@
             android:background="?attr/colorPrimary" />
 
         <ListView
-            android:id="@+id/taskList"
+            android:id="@+id/listSprint"
             android:layout_width="match_parent"
-            android:layout_height="415dp" />
+            android:layout_height="511dp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp"
-            android:gravity="center">
-
-            <Button
-                android:id="@+id/btnScheduling"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:text="SCHEDULING"
-                android:visibility="gone" />
-
-            <Button
-                android:id="@+id/btnDelete"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:text="DELETE PROJECT"
-                android:visibility="gone" />
-
-        </LinearLayout>
     </LinearLayout>
 </ScrollView>

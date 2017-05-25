@@ -14,14 +14,20 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 public class AddDependenceActivity extends AppCompatActivity {
     private static final String DEPENDENCE_URL = "http://scrummaster.pe.hu/dependence.php";
+    private static final String PROJECT_URL = "http://scrummaster.pe.hu/project.php";
     private int idProjet;
-    private ArrayList<ArrayList<String>> tasks;
+    private ArrayList<String> tasksId = new ArrayList<>();
+    private ArrayList<String> tasksName = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,32 +44,47 @@ public class AddDependenceActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         idProjet = getIntent().getIntExtra("idProjet",0);
-        tasks = (ArrayList<ArrayList<String>>) getIntent().getSerializableExtra("tasks");
 
         final Spinner spinner1 = (Spinner) findViewById(R.id.spinner1);
         final Spinner spinner2 = (Spinner) findViewById(R.id.spinner2);
 
-        ArrayList<String> tasksName = new ArrayList<>();
-        for(ArrayList<String> al : tasks){
-            tasksName.add(al.get(1));
-        }
+        final StringRequest stringRequest = new StringRequest(Request.Method.POST, PROJECT_URL,
+                response -> {
+                    try {
+                        JSONArray j = new JSONArray(response);
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(AddDependenceActivity.this, android.R.layout.simple_spinner_item, tasksName);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner1.setAdapter(adapter);
-        spinner2.setAdapter(adapter);
+                        for (int i = 0; i < j.length(); i++) {
+                            JSONObject JOStuff = j.getJSONObject(i);
+                            tasksId.add(JOStuff.getString("id_task"));
+                            tasksName.add(JOStuff.getString("name"));
+                        }
+
+                        ArrayAdapter<String> adapter = new ArrayAdapter<>(AddDependenceActivity.this, android.R.layout.simple_spinner_item, tasksName);
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        spinner1.setAdapter(adapter);
+                        spinner2.setAdapter(adapter);
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                },
+                error -> Toast.makeText(AddDependenceActivity.this, error.toString(), Toast.LENGTH_LONG).show()) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+                params.put("tag", "gettasks2");
+                params.put("id_project", String.valueOf(idProjet));
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(this);
+        requestQueue.add(stringRequest);
 
         Button btnAddDependence = (Button) findViewById(R.id.btnAddDependence);
+
         btnAddDependence.setOnClickListener(v -> {
-            String id_task1 = "", id_task2 = "";
-            for(ArrayList<String> al : tasks){
-                if(al.get(1).equals(spinner1.getSelectedItem())){
-                    id_task1 = al.get(0);
-                }
-                if(al.get(1).equals(spinner2.getSelectedItem())){
-                    id_task2 = al.get(0);
-                }
-            }
+            String id_task1 = tasksId.get(spinner1.getSelectedItemPosition());
+            String id_task2 = tasksId.get(spinner2.getSelectedItemPosition());
             if (id_task1.equals(id_task2)) {
                 Toast.makeText(getApplicationContext(), "Tasks should be different", Toast.LENGTH_LONG).show();
             } else {
@@ -77,7 +98,7 @@ public class AddDependenceActivity extends AppCompatActivity {
         Intent intent = new Intent(AddDependenceActivity.this, DependenciesActivity.class);
         intent.putExtra("idProjet", idProjet);
         intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
-        intent.putExtra("tasks", tasks);
+        intent.putExtra("tasks", getIntent().getSerializableExtra("tasks"));
         startActivity(intent);
         finish();
         return true;
@@ -90,7 +111,7 @@ public class AddDependenceActivity extends AppCompatActivity {
                     Intent intent = new Intent(AddDependenceActivity.this, DependenciesActivity.class);
                     intent.putExtra("idProjet", idProjet);
                     intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
-                    intent.putExtra("tasks", tasks);
+                    intent.putExtra("tasks", getIntent().getSerializableExtra("tasks"));
                     startActivity(intent);
                     finish();
                 },

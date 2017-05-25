@@ -19,6 +19,13 @@
         android:visible="false"/>
 
     <item
+        android:id="@+id/action_dependencies"
+        android:title="dependencies"
+        android:icon="@drawable/ic_timeline_black_24dp"
+        app:showAsAction="always"
+        android:visible="false"/>
+
+    <item
         android:id="@+id/action_done"
         android:title="add"
         android:icon="@drawable/done"

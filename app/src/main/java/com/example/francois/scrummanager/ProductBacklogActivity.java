@@ -97,6 +97,7 @@ public class ProductBacklogActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         Intent intent = new Intent(ProductBacklogActivity.this, ProjectMenuActivity.class);
         intent.putExtra("idProjet",idProjet);
+        intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
         startActivity(intent);
         finish();
         return true;
@@ -107,6 +108,8 @@ public class ProductBacklogActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu, menu);
         if(!session.getUserDetails().get(SessionManager.KEY_ROLE).equals("scrummaster")){
             menu.findItem(R.id.action_add).setVisible(false);
+        } else {
+            menu.findItem(R.id.action_dependencies).setVisible(true);
         }
         return true;
     }
@@ -114,9 +117,17 @@ public class ProductBacklogActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()){
+            case R.id.action_dependencies:
+                Intent intent = new Intent(ProductBacklogActivity.this, DependenciesActivity.class);
+                intent.putExtra("idProjet", idProjet);
+                intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
+                intent.putExtra("tasks", tasks);
+                startActivity(intent);
+                finish();
+                return true;
             case R.id.action_add:
-                Intent intent = new Intent(ProductBacklogActivity.this, AddTaskActivity.class);
-                intent.putExtra("idProjet",idProjet);
+                intent = new Intent(ProductBacklogActivity.this, AddTaskActivity.class);
+                intent.putExtra("idProjet", idProjet);
                 intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
                 startActivity(intent);
                 finish();

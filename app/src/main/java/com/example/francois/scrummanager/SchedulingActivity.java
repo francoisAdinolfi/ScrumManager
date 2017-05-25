@@ -34,7 +34,7 @@ public class SchedulingActivity extends AppCompatActivity {
         session.checkLogin();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(getIntent().getStringExtra("nameProjet"));
+        toolbar.setTitle(getIntent().getStringExtra("nameSprint"));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -76,6 +76,8 @@ public class SchedulingActivity extends AppCompatActivity {
         Intent intent = new Intent(SchedulingActivity.this, SprintTaskListActivity.class);
         intent.putExtra("idProjet", idProjet);
         intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
+        intent.putExtra("idSprint", getIntent().getStringExtra("idSprint"));
+        intent.putExtra("nameSprint", getIntent().getStringExtra("nameSprint"));
         startActivity(intent);
         finish();
         return true;

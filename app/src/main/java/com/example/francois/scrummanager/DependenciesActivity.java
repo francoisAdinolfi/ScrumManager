@@ -50,6 +50,8 @@ public class DependenciesActivity extends AppCompatActivity {
 
         final ListView dependenciesList = (ListView) findViewById(R.id.dependenciesList);
 
+        System.out.println("LOL : " + tasks.toString());
+
         StringRequest stringRequest = new StringRequest(Request.Method.POST, DEPENDENCE_URL,
                 response -> {
                     try {
@@ -107,7 +109,7 @@ public class DependenciesActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        Intent intent = new Intent(DependenciesActivity.this, SprintTaskListActivity.class);
+        Intent intent = new Intent(DependenciesActivity.this, ProductBacklogActivity.class);
         intent.putExtra("idProjet",idProjet);
         intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
         startActivity(intent);

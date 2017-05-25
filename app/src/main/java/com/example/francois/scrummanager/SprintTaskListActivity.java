@@ -1,6 +1,7 @@
 package com.example.francois.scrummanager;
 
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -31,8 +32,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SprintTaskListActivity extends AppCompatActivity {
+    private static final String SPRINT_URL = "http://scrummaster.pe.hu/sprint.php";
     private static final String PROJECT_URL = "http://scrummaster.pe.hu/project.php";
-    private static final String DELETE_URL = "http://scrummaster.pe.hu/delete.php";
     private static final String SCHEDULING_URL = "http://scrummaster.pe.hu/scheduling.php";
     private static final String DEPENDENCE_URL = "http://scrummaster.pe.hu/dependence.php";
     private SessionManager session;
@@ -52,7 +53,7 @@ public class SprintTaskListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sprint_list);
+        setContentView(R.layout.activity_sprint_task_list);
 
         session = new SessionManager(getApplicationContext());
         session.checkLogin();
@@ -274,6 +275,8 @@ public class SprintTaskListActivity extends AppCompatActivity {
                     Intent intent = new Intent(SprintTaskListActivity.this, SchedulingActivity.class);
                     intent.putExtra("idProjet", idProjet);
                     intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
+                    intent.putExtra("idSprint", getIntent().getStringExtra("idSprint"));
+                    intent.putExtra("nameSprint", getIntent().getStringExtra("nameSprint"));
                     startActivity(intent);
                     finish();
                 } else {
@@ -319,7 +322,14 @@ public class SprintTaskListActivity extends AppCompatActivity {
             final Button btnDelete = (Button) findViewById(R.id.btnDelete);
             btnDelete.setVisibility(View.VISIBLE);
 
-            btnDelete.setOnClickListener(v -> delete(idProjet));
+            btnDelete.setOnClickListener(v -> new AlertDialog.Builder(SprintTaskListActivity.this)
+                    .setTitle("Delete")
+                    .setMessage("Are you sure you want to delete this Sprint ?")
+                    .setPositiveButton(android.R.string.yes, (dialog, which) -> delete(getIntent().getStringExtra("idSprint")))
+                    .setNegativeButton(android.R.string.no, (dialog, which) -> { })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show()
+            );
         }
     }
 
@@ -374,11 +384,13 @@ public class SprintTaskListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void delete(final int idProjet){
-        final StringRequest stringRequest = new StringRequest(Request.Method.POST, DELETE_URL,
+    public void delete(final String idSprint){
+        final StringRequest stringRequest = new StringRequest(Request.Method.POST, SPRINT_URL,
                 response -> {
                     Toast.makeText(SprintTaskListActivity.this, response, Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(SprintTaskListActivity.this, ProjectsListActivity.class);
+                    Intent intent = new Intent(SprintTaskListActivity.this, SprintListActivity.class);
+                    intent.putExtra("idProjet", idProjet);
+                    intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
                     startActivity(intent);
                     finish();
                 },
@@ -386,8 +398,8 @@ public class SprintTaskListActivity extends AppCompatActivity {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
-                params.put("tag", "delproject");
-                params.put("id_project", Integer.toString(idProjet));
+                params.put("tag", "delsprint");
+                params.put("id_sprint", idSprint);
                 return params;
             }
         };

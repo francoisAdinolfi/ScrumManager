@@ -35,7 +35,7 @@ public class SprintListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sprint_list2);
+        setContentView(R.layout.activity_sprint_list);
 
         session = new SessionManager(getApplicationContext());
         session.checkLogin();
