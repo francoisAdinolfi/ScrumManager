@@ -349,6 +349,7 @@ public class SprintTaskListActivity extends AppCompatActivity {
                 intent.putExtra("idProjet", idProjet);
                 intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
                 intent.putExtra("idSprint", getIntent().getStringExtra("idSprint"));
+                intent.putExtra("nameSprint", getIntent().getStringExtra("nameSprint"));
                 startActivity(intent);
                 finish();
                 return true;
