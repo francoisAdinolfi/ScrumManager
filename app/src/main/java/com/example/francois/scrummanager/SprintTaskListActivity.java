@@ -125,7 +125,7 @@ public class SprintTaskListActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("tag", "getduration");
-                params.put("id_project", Integer.toString(idProjet));
+                params.put("id_sprint", getIntent().getStringExtra("idSprint"));
                 return params;
             }
         };
@@ -166,7 +166,7 @@ public class SprintTaskListActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("tag", "gettasksvotes");
-                params.put("id_project", Integer.toString(idProjet));
+                params.put("id_sprint", getIntent().getStringExtra("idSprint"));
                 return params;
             }
         };
@@ -569,7 +569,7 @@ public class SprintTaskListActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("tag", "addschedule");
-                params.put("id_project", Integer.toString(idProjet));
+                params.put("id_sprint", getIntent().getStringExtra("idSprint"));
                 params.put("duration", String.valueOf(schedule.getDuration()));
                 params.put("task_size", String.valueOf(schedule.getTasks().size()));
                 for(int i = 0; i < schedule.getTasks().size(); i++){

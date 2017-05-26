@@ -64,7 +64,7 @@ public class SchedulingActivity extends AppCompatActivity {
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<>();
                 params.put("tag", "gettasks");
-                params.put("id_project", Integer.toString(idProjet));
+                params.put("id_sprint", getIntent().getStringExtra("idSprint"));
                 return params;
             }
         };
