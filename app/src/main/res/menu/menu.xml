@@ -16,7 +16,7 @@
         android:title="add"
         android:icon="@drawable/remove"
         app:showAsAction="always"
-        android:visible="false"/>
+        android:visible="false" />
 
     <item
         android:id="@+id/action_dependencies"

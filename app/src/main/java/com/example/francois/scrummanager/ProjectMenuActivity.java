@@ -41,22 +41,22 @@ public class ProjectMenuActivity extends AppCompatActivity {
 
         idProjet = getIntent().getIntExtra("idProjet", 0);
 
-        ImageButton btnProductBacklog = (ImageButton) findViewById(R.id.btnProductBacklog);
+        ImageButton btnSprint = (ImageButton) findViewById(R.id.btnSprint);
 
-        btnProductBacklog.setOnClickListener(v -> {
-            Intent intent = new Intent(ProjectMenuActivity.this, ProductBacklogActivity.class);
-            intent.putExtra("idProjet",idProjet);
+        btnSprint.setOnClickListener(v -> {
+            Intent intent = new Intent(ProjectMenuActivity.this, SprintListActivity.class);
+            intent.putExtra("idProjet", idProjet);
             intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
             startActivity(intent);
             finish();
         });
 
         if(session.getUserDetails().get(SessionManager.KEY_ROLE).equals("scrummaster")){
-            ImageButton btnSprint = (ImageButton) findViewById(R.id.btnSprint);
-            btnSprint.setVisibility(View.VISIBLE);
+            ImageButton btnProductBacklog = (ImageButton) findViewById(R.id.btnProductBacklog);
+            btnProductBacklog.setVisibility(View.VISIBLE);
 
-            btnSprint.setOnClickListener(v -> {
-                Intent intent = new Intent(ProjectMenuActivity.this, SprintListActivity.class);
+            btnProductBacklog.setOnClickListener(v -> {
+                Intent intent = new Intent(ProjectMenuActivity.this, ProductBacklogActivity.class);
                 intent.putExtra("idProjet",idProjet);
                 intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
                 startActivity(intent);

@@ -89,6 +89,7 @@ public class ProductBacklogActivity extends AppCompatActivity {
             Intent intent = new Intent(ProductBacklogActivity.this, TaskActivity.class);
             intent.putExtra("task", task);
             intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
+            intent.putExtra("idSprint", String.valueOf(-1));
             intent.putExtra("previousActivity", "ProductBacklogActivity");
             startActivity(intent);
         });

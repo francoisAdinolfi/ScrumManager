@@ -91,6 +91,7 @@ public class TaskActivity extends AppCompatActivity {
                     Map<String, String> params = new HashMap<>();
                     params.put("tag", "getvotes");
                     params.put("id_task", task.get(0));
+                    params.put("id_sprint", getIntent().getStringExtra("idSprint"));
                     return params;
                 }
             };
@@ -124,6 +125,7 @@ public class TaskActivity extends AppCompatActivity {
                     params.put("tag", "isvoted");
                     params.put("id_user", session.getUserDetails().get(SessionManager.KEY_ID));
                     params.put("id_task", task.get(0));
+                    params.put("id_sprint", getIntent().getStringExtra("idSprint"));
                     return params;
                 }
             };
@@ -229,6 +231,7 @@ public class TaskActivity extends AppCompatActivity {
                 params.put("estimation", String.valueOf(estimation));
                 params.put("id_user", session.getUserDetails().get(SessionManager.KEY_ID));
                 params.put("id_task", task.get(0));
+                params.put("id_sprint", getIntent().getStringExtra("idSprint"));
                 return params;
             }
         };

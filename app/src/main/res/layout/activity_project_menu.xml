@@ -33,14 +33,6 @@
             android:layout_height="210dp"
             android:layout_gravity="center_horizontal"
             android:background="@drawable/productbacklog"
-            android:text="Button" />
-
-        <ImageButton
-            android:id="@+id/btnSprint"
-            android:layout_width="210dp"
-            android:layout_height="210dp"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/sprint"
             android:text="Button"
             android:visibility="gone" />
 
@@ -52,6 +44,15 @@
             android:background="@drawable/ic_event_note_black_24dp"
             android:text="Button"
             android:visibility="gone" />
+
+
+        <ImageButton
+            android:id="@+id/btnSprint"
+            android:layout_width="210dp"
+            android:layout_height="210dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/sprint"
+            android:text="Button" />
 
         <Button
             android:id="@+id/btnDelete"
