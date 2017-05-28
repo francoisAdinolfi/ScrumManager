@@ -243,10 +243,6 @@ public class TaskActivity extends AppCompatActivity {
         final StringRequest stringRequest = new StringRequest(Request.Method.POST, DELETE_URL,
                 response -> {
                     Toast.makeText(TaskActivity.this, response, Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(TaskActivity.this, SprintTaskListActivity.class);
-                    intent.putExtra("idProjet", Integer.valueOf(task.get(3)));
-                    intent.putExtra("nameProjet", getIntent().getStringExtra("nameProjet"));
-                    startActivity(intent);
                     finish();
                 },
                 error -> Toast.makeText(TaskActivity.this, error.toString(), Toast.LENGTH_LONG).show()) {
